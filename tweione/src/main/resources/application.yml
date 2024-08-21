@@ -1,0 +1,9 @@
+spring:
+    application:
+        name: tweione
+    jpa:
+        hibernate:
+            ddl-auto: create-drop
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.MySQL8Dialect

@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  mysql:
+    container_name: tweione_db
+    image: mysql:8.0.33
+    environment:
+      MYSQL_DATABASE: tweione
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_ROOT_PASSWORD: 1111
+    ports:
+      - "3306:3306"
+    command: ["--character-set-server=utf8mb4","--collation-server=utf8mb4_unicode_ci"]
+    networks:
+      - tweione_network
+
+  application:
+    container_name: tweione_web
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/tweione?useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: "root"
+      SPRING_DATASOURCE_PASSWORD: "1111"
+    depends_on:
+      - mysql
+    networks:
+      - tweione_network
+
+networks:
+  tweione_network:

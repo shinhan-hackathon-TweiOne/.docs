@@ -1,13 +1,13 @@
-package tweione.shinhantime;
+package com.shinhantime.tweione;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ShinhantimeApplication {
+public class TweioneApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ShinhantimeApplication.class, args);
+		SpringApplication.run(TweioneApplication.class, args);
 	}
 
 }
