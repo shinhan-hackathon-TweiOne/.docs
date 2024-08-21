@@ -9,7 +9,7 @@ services:
       MYSQL_ROOT_HOST: '%'
       MYSQL_ROOT_PASSWORD: 1111
     ports:
-      - "3306:3306"
+      - "13306:3306"
     command: ["--character-set-server=utf8mb4","--collation-server=utf8mb4_unicode_ci"]
     networks:
       - tweione_network
@@ -22,7 +22,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/tweione?useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:13306/tweione?useSSL=false&allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: "root"
       SPRING_DATASOURCE_PASSWORD: "1111"
     depends_on:
