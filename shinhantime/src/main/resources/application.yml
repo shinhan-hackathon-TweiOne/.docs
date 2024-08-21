@@ -1,0 +1,9 @@
+server:
+    port: 8080
+
+spring:
+    application:
+        name: shinhantime
+    profiles:
+        default: local #기본 환경을 어떤 프로필로 할 것인지
+

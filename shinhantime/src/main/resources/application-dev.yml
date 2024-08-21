@@ -1,0 +1,11 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url:
+    username:
+    password:
+    driver-class-name:
+server:
+  port: 2222
