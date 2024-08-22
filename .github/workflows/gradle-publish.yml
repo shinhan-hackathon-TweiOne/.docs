@@ -51,7 +51,7 @@ jobs:
     - name: Docker hub login
       uses: docker/login-action@v4
       with:
-        username: ${{ secrets.DOCKER_USERNAME }}
+        username: ${{ secrets.DOCKER_ID }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         
     - name: Docker image build
@@ -71,3 +71,4 @@ jobs:
         script: |
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}
             sudo docker-compose -f "docker-compose.yml" up -d --build
+            sudo docker image prune -f
