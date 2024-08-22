@@ -49,7 +49,7 @@ jobs:
       
     ## Docker hub login & build & push
     - name: Docker hub login
-      uses: docker/login-action@v4
+      uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKER_ID }}
         password: ${{ secrets.DOCKER_PASSWORD }}
