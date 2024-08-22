@@ -34,22 +34,20 @@ jobs:
         mkdir -p ./src/main/resources
         touch ./src/main/resources/application.yml
         echo "${{ secrets.APPLICATION }}" >> ./src/main/resources/application.yml
-        pwd
-        ls
       shell: bash
 
     ## gralew 실행 권한 부여  
     - name: Grant execute permission for gradlew
       run: |
         cd tweione
-        chmod +x ./gradlew
+        chmod +x ./tweione/gradlew
       
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
     
     ## 빌드 
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./tweione/gradlew build
       
     ## Docker hub login & build & push
     - name: Docker hub login
