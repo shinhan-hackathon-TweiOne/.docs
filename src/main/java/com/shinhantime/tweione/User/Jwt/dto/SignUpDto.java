@@ -21,6 +21,7 @@ public class SignUpDto {
                 .username(username)
                 .password(encodedPassword)
                 .name(name)
+                .roles(roles)
                 .build();
     }
 

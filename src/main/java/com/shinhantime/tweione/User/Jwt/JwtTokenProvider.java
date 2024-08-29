@@ -34,6 +34,8 @@ public class JwtTokenProvider {
     // Member 정보를 가지고 AccessToken, RefreshToken을 생성하는 메서드
     public JwtToken generateToken(Authentication authentication) {
         // 권한 가져오기
+
+
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
@@ -44,7 +46,7 @@ public class JwtTokenProvider {
         Date accessTokenExpiresIn = new Date(now + 86400000);
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())
-                .claim("auth", authorities)
+                .claim("auth", authorities)  // 이 부분이 중요합니다.
                 .setExpiration(accessTokenExpiresIn)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
@@ -54,7 +56,7 @@ public class JwtTokenProvider {
                 .setExpiration(new Date(now + 86400000))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
-
+        log.info("Generated token with auth claims: {}", authorities);
         return JwtToken.builder()
                 .grantType("Bearer")
                 .accessToken(accessToken)
@@ -67,7 +69,8 @@ public class JwtTokenProvider {
         // Jwt 토큰 복호화
         Claims claims = parseClaims(accessToken);
 
-        if (claims.get("auth") == null) {
+        String authoritiesClaim = claims.get("auth", String.class);
+        if (authoritiesClaim == null || authoritiesClaim.trim().isEmpty()) {
             throw new RuntimeException("권한 정보가 없는 토큰입니다.");
         }
 
