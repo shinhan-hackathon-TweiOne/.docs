@@ -28,13 +28,7 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         
-    ## application.yml 파일 생성
-    - name: make application.yml
-      run: |
-        mkdir -p ./src/main/resources
-        touch ./src/main/resources/application.yml
-        echo "${{ secrets.APPLICATION }}" > ./src/main/resources/application.yml
-      shell: bash
+    
 
     ## gralew 실행 권한 부여  
     - name: Grant execute permission for gradlew
