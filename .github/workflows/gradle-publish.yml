@@ -33,7 +33,7 @@ jobs:
       run: |
         mkdir -p ./src/main/resources
         touch ./src/main/resources/application.yml
-        echo "${{ secrets.APPLICATION }}" >> ./src/main/resources/application.yml
+        echo "${{ secrets.APPLICATION }}" > ./src/main/resources/application.yml
       shell: bash
 
     ## gralew 실행 권한 부여  
