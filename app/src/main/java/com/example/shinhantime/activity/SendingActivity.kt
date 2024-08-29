@@ -1,5 +1,6 @@
 package com.example.shinhantime.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -20,6 +21,10 @@ class SendingActivity : AppCompatActivity() {
         // intent로 전달받은 유저 이름, 이미지 등 정보
         val userName = intent.getStringExtra("userName")
         val userImageRes = intent.getIntExtra("userImage", -1)
+
+        findViewById<Button>(R.id.button_home).setOnClickListener{
+            startActivity(Intent(this, MainActivity::class.java))
+        }
 
         // 전달받은 정보를 fragment로 다시 전달
         val fragment = SendingInputInformationFragment().apply {

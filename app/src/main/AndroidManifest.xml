@@ -41,6 +41,10 @@
             android:name=".activity.SendingActivity"
             android:exported="false">
         </activity>
+        <activity
+            android:name=".activity.ConfirmActivity"
+            android:exported="false">
+        </activity>
     </application>
 
 </manifest>

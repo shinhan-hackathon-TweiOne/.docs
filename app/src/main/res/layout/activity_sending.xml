@@ -9,12 +9,12 @@
     android:fitsSystemWindows="true">
 
     <Button
-        android:id="@+id/button_backward"
+        android:id="@+id/button_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="@android:color/transparent"
-        android:text="back"
+        android:text="Home"
         android:textColor="@color/black"
         android:textSize="30dp"
         app:layout_constraintEnd_toStartOf="@+id/text_sending"

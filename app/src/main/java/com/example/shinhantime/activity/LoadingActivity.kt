@@ -17,7 +17,10 @@ class LoadingActivity : AppCompatActivity() {
         setContentView(R.layout.activity_loading)
 
         // intent pageName으로 받아온게 sendwitch인기 구분
-        val fragmentName = intent.getStringExtra("pageName")
+        val fragmentName = intent.getStringExtra("fragmentName")
+
+        println(fragmentName)
+        println(intent.getStringExtra("loadType"))
 
         // sendwitch 로딩 페이지 요청이라면
         if (fragmentName == "SendWitch")

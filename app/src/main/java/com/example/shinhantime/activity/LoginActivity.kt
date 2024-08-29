@@ -41,6 +41,7 @@ class LoginActivity : AppCompatActivity() {
     fun onAuthenticated() {
         // 인증 성공 시, 다음 mainactivity 페이지로 이동
         startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 
     // 지문 인식을 취소하면 비밀번호로만 인증되게 변환
