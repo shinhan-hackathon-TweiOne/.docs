@@ -1,0 +1,160 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <!-- 상단 파트 -->
+
+    <TextView
+        android:id="@+id/name_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="10dp"
+        android:text="신한은행"
+        android:textColor="@color/black"
+        android:textSize="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/main_background"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/button_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/setting"
+        app:layout_constraintBottom_toTopOf="@+id/main_background"
+        app:layout_constraintEnd_toStartOf="@+id/button_notification" />
+
+    <ImageButton
+        android:id="@+id/button_notification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/notification"
+        app:layout_constraintBottom_toTopOf="@+id/main_background"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- 내 계좌 파트 -->
+
+    <ImageView
+        android:id="@+id/main_background"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/medium_rounded_white_shadow"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_my_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="내 계좌"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="@+id/main_background"
+        app:layout_constraintStart_toStartOf="@+id/main_background"
+        app:layout_constraintTop_toTopOf="@+id/main_background" />
+
+    <Button
+        android:id="@+id/button_view_option"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:text="전체보기 >"
+        android:textColor="@color/black"
+        android:textSize="12dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@+id/main_background"
+        app:layout_constraintEnd_toEndOf="@+id/main_background"
+        app:layout_constraintTop_toTopOf="@+id/main_background" />
+
+    <!-- 주 계좌 파트 -->
+
+    <ImageView
+        android:id="@+id/account_background"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/medium_rounded_white_shadow"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_background" />
+
+    <TextView
+        android:id="@+id/text_my_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:text="주 계좌"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/account_background"
+        app:layout_constraintTop_toTopOf="@+id/account_background" />
+
+    <TextView
+        android:id="@+id/text_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:text="신한 110-123-123123"
+        android:textColor="#606060"
+        android:textSize="12dp"
+        app:layout_constraintStart_toStartOf="@+id/account_background"
+        app:layout_constraintTop_toBottomOf="@+id/text_my_account" />
+
+    <TextView
+        android:id="@+id/text_balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="1,000,000 원"
+        android:textColor="@color/black"
+        android:textSize="32dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/account_background"
+        app:layout_constraintStart_toStartOf="@+id/account_background"
+        app:layout_constraintTop_toBottomOf="@+id/text_account" />
+
+    <Button
+        android:id="@+id/button_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/small_rounded_blue_button"
+        android:text="보내기"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/account_background"
+        app:layout_constraintStart_toStartOf="@+id/account_background"
+        app:layout_constraintTop_toBottomOf="@+id/text_deposit" />
+
+    <Button
+        android:id="@+id/button_receive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/small_rounded_blue_button"
+        android:text="받기"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/account_background"
+        app:layout_constraintEnd_toEndOf="@+id/account_background"
+        app:layout_constraintTop_toBottomOf="@+id/text_deposit" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

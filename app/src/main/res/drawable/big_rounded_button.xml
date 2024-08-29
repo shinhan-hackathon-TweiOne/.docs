@@ -1,0 +1,7 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 버튼 배경 색상 설정 -->
+    <solid android:color="#4D4D4D"/> <!-- 원하는 배경 색상으로 변경 -->
+
+    <!-- 모서리를 완전히 둥글게 설정 -->
+    <corners android:radius="50dp"/> <!-- radius를 충분히 크게 설정 -->
+</shape>
