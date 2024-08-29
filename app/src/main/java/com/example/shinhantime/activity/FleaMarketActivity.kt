@@ -10,21 +10,20 @@ import androidx.core.view.updatePadding
 import com.example.shinhantime.R
 import com.example.shinhantime.fragment.FindingWithAroundFragment
 
-class FindingActivity : AppCompatActivity() {
-
+class FleaMarketActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_finding)
 
-        findViewById<Button>(R.id.button_home).setOnClickListener{
+        findViewById<Button>(R.id.button_home).setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
         }
 
-        // 메인 기본 => 내 주변 찾기로 설정
+        // Fragment 생성 및 데이터 전달
         val fragment = FindingWithAroundFragment().apply {
             arguments = Bundle().apply {
-                putString("pageName", "FindingActivity") // 원하는 데이터를 추가
+                putString("pageName", "FleaMarketActivity") // 원하는 데이터를 추가
             }
         }
 
@@ -32,8 +31,7 @@ class FindingActivity : AppCompatActivity() {
             .replace(R.id.fragment_container, fragment)
             .commit()
 
-
-        // WindowInsets 처리 ( 필요한지 잘 모르겟음, 해골물인가 )
+        // WindowInsets 처리 ( 필요 없는 경우 삭제 가능 )
         val rootView = findViewById<View>(R.id.fragment_container)
         rootView.setOnApplyWindowInsetsListener { view, insets ->
             val navigationBarHeight = insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
@@ -41,5 +39,4 @@ class FindingActivity : AppCompatActivity() {
             insets
         }
     }
-
 }

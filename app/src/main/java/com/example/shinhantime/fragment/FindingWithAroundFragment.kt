@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import com.example.shinhantime.R
 import com.example.shinhantime.activity.LoadingActivity
 import com.example.shinhantime.activity.SendingActivity
+import org.w3c.dom.Text
 
 class FindingWithAroundFragment : Fragment() {
 
@@ -32,12 +33,19 @@ class FindingWithAroundFragment : Fragment() {
         
         // fragment view 설정
         val view = inflater.inflate(R.layout.fragment_finding_with_around, container, false)
-        
+
+        val pageName = arguments?.getString("pageName").toString()
+
+        if (pageName == "SendingActivity") view.findViewById<TextView>(R.id.text_description).text = "주변 사람을 찾는 중이에요 ..."
+        else if (pageName == "FleaMarketActivity") view.findViewById<TextView>(R.id.text_description).text = "주변 가게를 찾는 중이에요 ..."
+
         constraintLayout = view.findViewById(R.id.constraintLayout)
         centralImage = view.findViewById(R.id.image_me)
 
         // 우선은 일정 시간마다 추가되는 것처럼 보이게 해놓음
         // 비동기적으로 탐색하는 함수를 돌려야 할듯
+        // 플리마켓 버전과 송금 버전의 차이가 거의 없음. 플리마켓은 업종별로 다르게 띄워준다 정도 ? 이것도 뺄 수도 있으니 사실상 같은 기능이라고 보면 될 거 같음
+        // 우선은 pageName에 맞춰서 글씨만 바뀌도록 설정 그 외 기능 동일
         startAddingFaceButtons()
 
         return view
