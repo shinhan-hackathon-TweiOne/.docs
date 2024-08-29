@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+
+    <TextView
+        android:id="@+id/text_sendwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:text="Send Witch"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_action" />
+
+    <TextView
+        android:id="@+id/text_action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="보내는 중 ..."
+        android:textColor="@color/black"
+
+        android:textSize="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_sendwitch" />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="70dp"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <!-- Box 1 -->
+        <View
+            android:id="@+id/box1"
+            android:layout_width="200dp"
+            android:layout_height="20dp"
+            android:layout_margin="10dp"
+            android:background="#0046FF"
+            app:layout_constraintBottom_toTopOf="@+id/box2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Box 2 -->
+        <View
+            android:id="@+id/box2"
+            android:layout_width="200dp"
+            android:layout_height="20dp"
+            android:layout_margin="10dp"
+            android:background="#5CCFD3"
+            app:layout_constraintBottom_toTopOf="@+id/box3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/box1" />
+
+        <!-- Box 3 -->
+        <View
+            android:id="@+id/box3"
+            android:layout_width="200dp"
+            android:layout_height="20dp"
+            android:layout_margin="10dp"
+            android:background="#F5B265"
+            app:layout_constraintBottom_toTopOf="@+id/box4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/box2" />
+
+        <!-- Box 4 -->
+        <View
+            android:id="@+id/box4"
+            android:layout_width="200dp"
+            android:layout_height="20dp"
+            android:layout_margin="10dp"
+            android:background="#0046FF"
+            android:alpha="0.5"
+            app:layout_constraintBottom_toTopOf="@+id/box5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/box3" />
+
+        <!-- Box 5 -->
+        <View
+            android:id="@+id/box5"
+            android:layout_width="200dp"
+            android:layout_height="20dp"
+            android:layout_margin="10dp"
+            android:background="#5CCFD3"
+            android:alpha="0.5"
+            app:layout_constraintBottom_toTopOf="@+id/box6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/box4" />
+
+        <!-- Box 6 -->
+        <View
+            android:id="@+id/box6"
+            android:layout_width="200dp"
+            android:layout_height="20dp"
+            android:layout_margin="10dp"
+            android:background="#F5B265"
+            android:alpha="0.5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/box5" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,19 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F2F2F2"
-    tools:context=".activity.SendingActivity"
     android:fitsSystemWindows="true">
-
-    <ImageView
-        android:id="@+id/image_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:alpha="0.3"
-        app:layout_constraintBottom_toBottomOf="@+id/fragment_container"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/fragment_container"
-        app:layout_constraintTop_toTopOf="@+id/text_sending"
-        app:srcCompat="@drawable/shinhan_logo" />
 
     <Button
         android:id="@+id/button_backward"
@@ -38,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="송금 하기"
+        android:text="송금"
         android:textColor="@color/black"
         android:textSize="30dp"
         android:textStyle="bold"
@@ -46,74 +34,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <GridLayout
-        android:id="@+id/gridLayout"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="30dp"
-        android:background="@drawable/small_rounded_white_button"
-        android:columnCount="3"
-        android:orientation="horizontal"
-        android:rowCount="1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_sending">
-
-        <!-- 선택 여부에 따라 android:background 변경-->
-        <!-- 선택 : "@drawable/small_rounded_gray_button" -->
-        <!-- 미선택 : "@android:color/transparent" -->
-
-        <!-- 선택 여부에 따라 android:textColor 변경 -->
-        <!-- 선택 : "#000000" -->
-        <!-- 미선택 : "#606060" -->
-
-        <Button
-            android:id="@+id/button_account"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:layout_gravity="fill"
-            android:layout_margin="5dp"
-            android:background="@drawable/small_rounded_gray_button"
-            android:text="계좌"
-            android:textColor="#000000" />
-
-        <Button
-            android:id="@+id/button_number"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:layout_gravity="fill"
-            android:layout_margin="5dp"
-            android:background="@android:color/transparent"
-            android:text="연락처"
-            android:textColor="#606060" />
-
-        <Button
-            android:id="@+id/button_around"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:layout_gravity="fill"
-            android:layout_margin="5dp"
-            android:background="@android:color/transparent"
-            android:text="내 주변"
-            android:textColor="#606060" />
-
-    </GridLayout>
-
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gridLayout">
+        app:layout_constraintStart_toStartOf="parent">
 
     </FrameLayout>
 

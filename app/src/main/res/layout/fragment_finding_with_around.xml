@@ -1,0 +1,95 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2F2F2"
+    tools:context=".fragment.FindingWithAroundFragment"
+    android:fitsSystemWindows="true">
+
+    <!-- 가장 바깥쪽 원: 화면을 넘어가도록 설정 -->
+    <ImageView
+        android:id="@+id/image_circle_0"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="1.2"
+        app:srcCompat="@drawable/circle0" />
+
+    <!-- 두 번째 바깥 원: 좌우 양 끝에 맞도록 설정 -->
+    <ImageView
+        android:id="@+id/image_circle_1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="1.0"
+        app:srcCompat="@drawable/circle1" />
+
+    <!-- 세 번째 원 -->
+    <ImageView
+        android:id="@+id/image_circle_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/circle2" />
+
+    <!-- 네 번째 원 -->
+    <ImageView
+        android:id="@+id/image_circle_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/circle3" />
+
+    <ImageView
+        android:id="@+id/image_me"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/image_circle_3"
+        app:layout_constraintEnd_toEndOf="@+id/image_circle_3"
+        app:layout_constraintStart_toStartOf="@+id/image_circle_3"
+        app:layout_constraintTop_toTopOf="@+id/image_circle_3"
+        app:srcCompat="@drawable/face1" />
+
+    <TextView
+        android:id="@+id/text_me"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Me"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/image_me"
+        app:layout_constraintStart_toStartOf="@+id/image_me"
+        app:layout_constraintTop_toBottomOf="@+id/image_me" />
+
+    <TextView
+        android:id="@+id/text_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="주변 사람을 찾는 중이에요 ..."
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_circle_0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
