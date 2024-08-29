@@ -22,7 +22,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        // 초기 Fragment로 PasswordFragment를 추가합니다.
+        // 초기 fragment에 password입력을 추가
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, PasswordFragment())
             .commit()
@@ -37,14 +37,14 @@ class LoginActivity : AppCompatActivity() {
             .commit()
     }
 
-    fun onFingerprintAuthenticated() {
-        // 인증 성공 시, 다음 페이지로 이동
-        // 예를 들어, 다음 Activity로 이동할 수 있습니다.
+    // 인증 성공
+    fun onAuthenticated() {
+        // 인증 성공 시, 다음 mainactivity 페이지로 이동
         startActivity(Intent(this, MainActivity::class.java))
     }
 
+    // 지문 인식을 취소하면 비밀번호로만 인증되게 변환
     fun onFingerprintCancelled() {
-        // 취소 시, PasswordFragment로 돌아가고 FingerprintFragment는 다시 실행되지 않음
         val fragmentManager = supportFragmentManager
         val currentFragment = fragmentManager.findFragmentById(R.id.fragment_container)
 

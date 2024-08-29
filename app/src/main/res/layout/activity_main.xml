@@ -9,8 +9,6 @@
     tools:context=".activity.MainActivity"
     android:fitsSystemWindows="true">
 
-    <!-- Fragment가 들어갈 컨테이너 -->
-
     <include
         android:id="@+id/bottom_navbar"
         layout="@layout/component_bottom_navbar" />

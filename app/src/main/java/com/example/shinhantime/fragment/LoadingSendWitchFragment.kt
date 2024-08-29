@@ -21,7 +21,7 @@ class LoadingSendWitchFragment : Fragment() {
     private lateinit var type: String
     private lateinit var boxes: List<View>
     private val delayMillis = 500L
-    private val animationDuration = 500L  // 애니메이션 지속 시간
+    private val animationDuration = 500L
     private val boxIds = listOf(
         R.id.box1, R.id.box2, R.id.box3, R.id.box4, R.id.box5, R.id.box6
     )
@@ -36,10 +36,13 @@ class LoadingSendWitchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 로드 타입이 뭔지 intent로 받아옴
         type = arguments?.getString("loadType").toString()
 
+        // send에서 넘어온 경우
         if (type == "send")
         {
+            // send 용으로 페이지 전환
             view.findViewById<TextView>(R.id.text_action).text = "보내는 중 ..."
             view.findViewById<View>(R.id.box1).alpha = 1.0f
             view.findViewById<View>(R.id.box1).background = ColorDrawable(Color.parseColor("#0046ff"))
@@ -61,6 +64,7 @@ class LoadingSendWitchFragment : Fragment() {
         }
         else if (type == "receive")
         {
+            // receive 용으로 전환
             view.findViewById<TextView>(R.id.text_action).text = "받는 중 ..."
             view.findViewById<View>(R.id.box1).alpha = 0.5f
             view.findViewById<View>(R.id.box1).background = ColorDrawable(Color.parseColor("#F5B265"))
@@ -81,14 +85,14 @@ class LoadingSendWitchFragment : Fragment() {
             view.findViewById<View>(R.id.box6).background = ColorDrawable(Color.parseColor("#0046ff"))
 
         }
-
-        // Find all box views
+            
         boxes = boxIds.map { view.findViewById<View>(it) }
         startAnimation()
     }
 
     private fun startAnimation() {
         CoroutineScope(Dispatchers.Main).launch {
+            // send일 때는 박스들이 날아가는 것 처럼
             if (type == "send") {
                 while (true) {
                     for (i in boxes.indices) {
@@ -126,35 +130,30 @@ class LoadingSendWitchFragment : Fragment() {
                         delay(delayMillis)
                     }
 
-                    // Add delay before resetting and making all boxes visible again
                     delay(animationDuration + delayMillis)
 
-                    // Reset all boxes to original position and make them visible
+                    // 박스들 초기화
                     for (box in boxes) {
                         box.clearAnimation()
-                        box.translationY = 0f  // Reset position
+                        box.translationY = 0f
                         box.visibility = View.VISIBLE
                     }
 
-                    // Optionally add a small delay before starting the next cycle
                     delay(delayMillis)
                 }
             }
+            // receive일 때
             else if (type == "receive")
             {
-                println("receiving !!!!")
                 while (true) {
+                    // 모든 박스들이 안보이는 상태에서 시작해야 함
                     for(i in boxes.indices.reversed()) boxes[i].visibility = View.INVISIBLE
-                    // First part: Boxes appear from above and move downwards to stack
-                    for (i in boxes.indices.reversed()) {  // Reverse order for stacking effect
+                    for (i in boxes.indices.reversed()) {
                         val box = boxes[i]
-                        // Make sure the box is initially invisible
                         box.visibility = View.INVISIBLE
 
-                        // Ensure the box is off-screen initially
                         box.translationY = -box.height.toFloat()
 
-                        // Animate the box to move down to its position
                         val appearAnimator = ObjectAnimator.ofFloat(box, "translationY", -box.height.toFloat(), 0f).apply {
                             duration = animationDuration
                             interpolator = AccelerateInterpolator()
@@ -162,12 +161,10 @@ class LoadingSendWitchFragment : Fragment() {
 
                         appearAnimator.addListener(object : Animator.AnimatorListener {
                             override fun onAnimationStart(animation: Animator) {
-                                // Make the box visible when the animation starts
                                 box.visibility = View.VISIBLE
                             }
 
                             override fun onAnimationEnd(animation: Animator) {
-                                // Optionally handle after each box appears
                             }
 
                             override fun onAnimationCancel(animation: Animator) {}
@@ -180,7 +177,6 @@ class LoadingSendWitchFragment : Fragment() {
                         delay(delayMillis)
                     }
 
-                    // Add delay before starting the second part of the animation
                     delay(animationDuration + delayMillis)
                 }
             }

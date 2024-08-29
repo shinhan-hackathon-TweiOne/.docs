@@ -29,26 +29,26 @@ class FindingWithAroundFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the fragment layout
+        
+        // fragment view 설정
         val view = inflater.inflate(R.layout.fragment_finding_with_around, container, false)
-
+        
         constraintLayout = view.findViewById(R.id.constraintLayout)
         centralImage = view.findViewById(R.id.image_me)
 
-        // Start adding face buttons with delay
+        // 우선은 일정 시간마다 추가되는 것처럼 보이게 해놓음
+        // 비동기적으로 탐색하는 함수를 돌려야 할듯
         startAddingFaceButtons()
 
         return view
     }
 
     private fun startAddingFaceButtons() {
-        // Start adding buttons with a delay of 3 seconds
+        // 3초에 하나씩 추가
         handler.postDelayed(object : Runnable {
             override fun run() {
-                Log.d("SendingWithAroundFragment", "Adding face button: $buttonIndex")
                 addFaceButton(buttonIndex)
                 buttonIndex++
-                // Schedule the next button addition after 3 seconds
                 handler.postDelayed(this, 3000)
             }
         }, 3000)
@@ -56,37 +56,37 @@ class FindingWithAroundFragment : Fragment() {
 
     // 인자로 이름, 얼굴 등을 받아와서 적용해줄 필요가 있음
     private fun addFaceButton(index: Int) {
-        // Inflate the button component XML
+
         val buttonView = layoutInflater.inflate(R.layout.component_sending_with_around_face, null)
 
-        // Find Button and TextView and set image and text dynamically
         val imageButton = buttonView.findViewById<ImageButton>(R.id.button_face)
         val textView = buttonView.findViewById<TextView>(R.id.text_name)
 
-        // Example image and text changes
+        // 기본 이미지랑 텍스트 전환
+        // 유저 이름, 유저 캐릭터 이미지로 바꿔야 함
         imageButton.setImageResource(R.drawable.face0)
         textView.text = "User $index"
 
         imageButton.setOnClickListener {
-            // Intent에 정보 추가
+            // Intent에 정보 추가 후 send페이지로 전환할 수 있도록 진행
             val intent = Intent(requireContext(), SendingActivity::class.java)
             intent.putExtra("userName", "User $index")  // 예시로 사용자 이름 전달
             intent.putExtra("userImage", R.drawable.face0)  // 사용자 이미지 전달
             startActivity(intent)
         }
 
-        // Add the button to the layout
+        
         val buttonId = View.generateViewId()
         buttonView.id = buttonId
         constraintLayout.addView(buttonView)
 
-        // Use ConstraintSet to position the button
+        // constraintlayout에 적용
         val constraintSet = ConstraintSet()
         constraintSet.clone(constraintLayout)
 
-        // Calculate position in a circular pattern
+        // 위치 계산, 내 캐릭터 주변으로 설정해둠
         val angle = Math.toRadians((index * 60).toDouble())
-        val radius = 300 // Distance from the center (px)
+        val radius = 300
 
         val centerX = centralImage.x + centralImage.width / 2
         val centerY = centralImage.y + centralImage.height / 2
@@ -102,7 +102,6 @@ class FindingWithAroundFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        // Remove any pending posts of Runnable when Fragment view is destroyed
         handler.removeCallbacksAndMessages(null)
     }
 }

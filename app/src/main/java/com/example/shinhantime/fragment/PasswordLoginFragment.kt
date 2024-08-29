@@ -26,7 +26,7 @@ class PasswordFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 각 자리수 TextView를 초기화합니다.
+        // 각 자리수 text 초기화
         charViews = listOf(
             view.findViewById(R.id.char_1),
             view.findViewById(R.id.char_2),
@@ -50,6 +50,7 @@ class PasswordFragment : Fragment() {
         view.findViewById<Button>(R.id.button_back).setOnClickListener { clearLastPassword() }
     }
 
+    // 뒤로 숫자 추가
     private fun appendDigit(digit: String) {
         if (password.length < maxPasswordLength) {
             password.append(digit)
@@ -60,6 +61,7 @@ class PasswordFragment : Fragment() {
         }
     }
 
+    // 맨 뒤 숫자 하나 제거
     private fun clearLastPassword() {
         if (password.isNotEmpty()) {
             password.deleteCharAt(password.length - 1)
@@ -67,21 +69,20 @@ class PasswordFragment : Fragment() {
         }
     }
 
-
+    // 화면에 text 업데이트 * 또는 _
     private fun updatePasswordDisplay() {
         for (i in 0 until maxPasswordLength) {
             charViews[i].text = if (i < password.length) "*" else "_"
         }
     }
 
+    // 비밀번호 검증
     private fun validatePassword() {
-        // 비밀번호 검증 로직
-        if (password.toString() == "123456") { // 예시 비밀번호
-            (activity as? LoginActivity)?.onFingerprintAuthenticated()
-            println("IS TRUE !!")
+        // 비밀번호 검증 로직으로 내부 or DB에서 값 받아와서 비교필요
+        if (password.toString() == "123456") {
+            (activity as? LoginActivity)?.onAuthenticated()
         } else {
             (activity as? LoginActivity)?.onFingerprintCancelled()
-            println("IS FALSE !!")
         }
     }
 }

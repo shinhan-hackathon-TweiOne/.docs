@@ -17,7 +17,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // 초기 Fragment로 MainAccountExistFragment를 추가합니다.
+        // 지금은 fragment로 mainaccountexistfragment를 추가합니다.
+        // 실제로는 앱 데이터에 계정 정보 확인 후 없으면 nonefragment
+        // 있으면 existfragment
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, MainAccountExistFragment())
             .commit()

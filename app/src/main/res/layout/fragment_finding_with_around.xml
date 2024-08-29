@@ -22,7 +22,7 @@
         app:layout_constraintWidth_percent="1.2"
         app:srcCompat="@drawable/circle0" />
 
-    <!-- 두 번째 바깥 원: 좌우 양 끝에 맞도록 설정 -->
+    <!-- 두 번째 원 -->
     <ImageView
         android:id="@+id/image_circle_1"
         android:layout_width="0dp"

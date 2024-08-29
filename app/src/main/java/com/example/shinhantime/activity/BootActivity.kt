@@ -12,7 +12,7 @@ import com.example.shinhantime.fragment.SendingInputInformationFragment
 
 
 class BootActivity : AppCompatActivity() {
-
+    
     private val DELAY_LOADING = 1000 // milliseconds
     private val DELAY_SIGNIN = 3000 // milliseconds
 
@@ -22,53 +22,13 @@ class BootActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_boot)
 
+        // 현재는 2초 뒤에 바로 로딩화면이 나오도록 되어있는데 바로 시작해도 됨
+        // 로고, 앱 이름 등을 보여주기 위한 딜레이임
         handler.postDelayed({
             val intent = Intent(this, LoadingActivity::class.java)
             startActivity(intent)
-        }, 2000)//DELAY_LOADING)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        handler.removeCallbacksAndMessages(null)
-    }
-}
-
-class LoadingActivity : AppCompatActivity() {
-
-    private val handler = Handler()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_loading)
-
-        val fragmentName = intent.getStringExtra("pageName")
-
-        if (fragmentName == "SendWitch")
-        {
-            val type = intent.getStringExtra("loadType")
-
-            val fragment = LoadingSendWitchFragment().apply {
-                arguments = Bundle().apply {
-                    putString("loadType", type)
-                }
-            }
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit()
-        }
-        else
-        {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, LoadingBootFragment())
-                .commit()
-
-            handler.postDelayed({
-                val intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
-                finish() // 현재 Activity 종료
-            }, 1000)//DELAY_SIGNIN)
-        }
+            finish()
+        }, 2000)
     }
 
     override fun onDestroy() {

@@ -40,13 +40,6 @@
         app:layout_constraintBottom_toTopOf="@+id/background"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- 이미지와 다른 요소들을 배치할 레이아웃 -->
-
-
-        <!-- 배경 이미지: src가 아닌 background에 둥근 모서리 drawable 적용 -->
-        <!--"@drawable/rounded_corners_background"-->
-
-        <!-- 텍스트 -->
 
     <ImageView
         android:id="@+id/background"
@@ -59,7 +52,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- 버튼 -->
     <TextView
         android:id="@+id/description_text"
         android:layout_width="wrap_content"

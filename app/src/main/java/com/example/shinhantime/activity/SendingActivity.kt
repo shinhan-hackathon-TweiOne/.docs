@@ -15,11 +15,13 @@ class SendingActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sending)  // XML 레이아웃 파일 이름을 실제 이름으로 변경하세요
+        setContentView(R.layout.activity_sending)
 
+        // intent로 전달받은 유저 이름, 이미지 등 정보
         val userName = intent.getStringExtra("userName")
         val userImageRes = intent.getIntExtra("userImage", -1)
 
+        // 전달받은 정보를 fragment로 다시 전달
         val fragment = SendingInputInformationFragment().apply {
             arguments = Bundle().apply {
                 putString("userName", userName)
