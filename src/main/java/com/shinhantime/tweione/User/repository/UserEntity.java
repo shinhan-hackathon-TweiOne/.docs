@@ -32,6 +32,13 @@ public class UserEntity implements UserDetails {
     private String name;
 
     //Todo : 이더리움 연결
+    @Column(name = "current_money")
+    private Long currentMoney;
+
+    //Todo : 계좌랑 연결
+    @Column(name = "main_account")
+    private String mainAccount;
+
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default

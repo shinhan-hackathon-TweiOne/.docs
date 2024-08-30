@@ -38,7 +38,7 @@ public class UserController {
             return jwtToken;
         } catch (Exception e) {
             log.error("Sign-in failed for username: {}. Error: {}", username, e.getMessage());
-            throw e; // 재던지기를 통해 에러를 처리하는 로직을 이어갈 수 있습니다.
+            throw e;
         }
     }
 
