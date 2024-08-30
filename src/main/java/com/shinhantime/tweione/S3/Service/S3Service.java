@@ -22,6 +22,7 @@ public class S3Service {
                 .bucket(bucketName)
                 .key(keyName)
                 .contentType(file.getContentType())
+                .contentDisposition("inline")
                 .build();
 
         s3Client.putObject(putObjectRequest, RequestBody.fromBytes(file.getBytes()));
