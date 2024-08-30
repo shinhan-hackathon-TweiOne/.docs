@@ -1,6 +1,6 @@
 package com.shinhantime.tweione.account.service;
 
-import com.shinhantime.tweione.User.repository.UserEntity;
+import com.shinhantime.tweione.User.Jwt.dto.realUserDto;
 import com.shinhantime.tweione.account.repository.AccountEntity;
 import com.shinhantime.tweione.account.repository.dto.AccountDTO;
 
@@ -11,5 +11,5 @@ public interface AccountService {
 
     AccountEntity createOrUpdateAccount(Long userId, String accountNumber, String bankName);
 
-    UserEntity setMainAccount(Long userId, Long accountId);
+    realUserDto setMainAccount(Long userId, Long accountId);
 }

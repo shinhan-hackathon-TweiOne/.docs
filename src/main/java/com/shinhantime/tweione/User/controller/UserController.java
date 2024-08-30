@@ -1,25 +1,18 @@
 package com.shinhantime.tweione.User.controller;
 
 import com.shinhantime.tweione.Config.SecurityUtil;
-import com.shinhantime.tweione.User.Jwt.dto.JwtToken;
-import com.shinhantime.tweione.User.Jwt.dto.SignInDto;
-import com.shinhantime.tweione.User.Jwt.dto.SignUpDto;
-import com.shinhantime.tweione.User.Jwt.dto.UserDto;
+import com.shinhantime.tweione.User.Jwt.dto.*;
 import com.shinhantime.tweione.User.service.UserService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("/api")
 public class UserController {
 
     private final UserService userService;
@@ -47,6 +40,19 @@ public class UserController {
         UserDto savedMemberDto = userService.signUp(signUpDto);
         return ResponseEntity.ok(savedMemberDto);
     }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<realUserDto> getUserById(@PathVariable Long id) {
+        realUserDto userDto = userService.getUserById(id);
+        return ResponseEntity.ok(userDto);
+    }
+
+    @PostMapping("/transfer")
+    public ResponseEntity<String> transferMoney(@RequestBody TransferRequest transferRequest) {
+        userService.transferMoney(transferRequest.getFromUserId(), transferRequest.getToUserId(), transferRequest.getAmount());
+        return ResponseEntity.ok("Transfer successful");
+    }
+
 
     @PostMapping("/test")
     public String test() {
