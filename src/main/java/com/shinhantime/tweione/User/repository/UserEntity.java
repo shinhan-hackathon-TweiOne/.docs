@@ -1,5 +1,6 @@
 package com.shinhantime.tweione.User.repository;
 
+import com.shinhantime.tweione.account.repository.AccountEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,8 +12,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Entity
+@Entity(name = "user")
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
@@ -35,9 +37,13 @@ public class UserEntity implements UserDetails {
     @Column(name = "current_money")
     private Long currentMoney;
 
-    //Todo : 계좌랑 연결
-    @Column(name = "main_account")
-    private String mainAccount;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<AccountEntity> accounts;
+
+    @OneToOne
+    @JoinColumn(name = "main_account_id")
+    private AccountEntity mainAccount;
 
 
     @ElementCollection(fetch = FetchType.EAGER)
