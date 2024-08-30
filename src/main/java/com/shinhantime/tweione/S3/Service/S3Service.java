@@ -1,4 +1,4 @@
-package com.shinhantime.tweione.Service;
+package com.shinhantime.tweione.S3.Service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
