@@ -21,7 +21,7 @@ public class S3Service {
         PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                 .bucket(bucketName)
                 .key(keyName)
-                .contentType("image/png")
+                .contentType(file.getContentType())
                 .contentDisposition("inline")
                 .build();
 
