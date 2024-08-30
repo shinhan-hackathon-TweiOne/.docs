@@ -1,5 +1,6 @@
 package com.shinhantime.tweione.account.controller;
 
+import com.shinhantime.tweione.User.Jwt.dto.realUserDto;
 import com.shinhantime.tweione.User.repository.UserEntity;
 import com.shinhantime.tweione.account.repository.AccountEntity;
 import com.shinhantime.tweione.account.repository.dto.AccountDTO;
@@ -56,11 +57,11 @@ public class AccountController {
 
     // Set a representative account for a user
     @PostMapping("/user/{userId}/main-account/{accountId}")
-    public ResponseEntity<UserEntity> setRepresentativeAccount(
+    public ResponseEntity<realUserDto> setRepresentativeAccount(
             @PathVariable Long userId,
             @PathVariable Long accountId) {
 
-        UserEntity user = accountService.setMainAccount(userId, accountId);
+        realUserDto user = accountService.setMainAccount(userId, accountId);
         return ResponseEntity.ok(user);
     }
 

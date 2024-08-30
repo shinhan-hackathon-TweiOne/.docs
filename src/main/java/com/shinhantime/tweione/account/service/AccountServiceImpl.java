@@ -1,5 +1,6 @@
 package com.shinhantime.tweione.account.service;
 
+import com.shinhantime.tweione.User.Jwt.dto.realUserDto;
 import com.shinhantime.tweione.User.repository.UserRepository;
 import com.shinhantime.tweione.User.service.UserService;
 import com.shinhantime.tweione.account.repository.AccountEntity;
@@ -47,7 +48,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public UserEntity setMainAccount(Long userId, Long accountId) {
+    public realUserDto setMainAccount(Long userId, Long accountId) {
         UserEntity user = userRepository.findById(userId).orElse(null);
         AccountEntity account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new RuntimeException("Account not found"));
@@ -57,7 +58,9 @@ public class AccountServiceImpl implements AccountService {
         }
 
         user.setMainAccount(account);
-        return userRepository.save(user);
+        realUserDto realUserDto = com.shinhantime.tweione.User.Jwt.dto.realUserDto.convertToDTO(user);
+        userRepository.save(user);
+        return realUserDto;
     }
 
 
