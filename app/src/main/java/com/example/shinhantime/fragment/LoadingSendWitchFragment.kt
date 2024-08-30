@@ -101,8 +101,11 @@ class LoadingSendWitchFragment : Fragment() {
         boxes = boxIds.map { view.findViewById<View>(it) }
         startAnimation()
 
-        // 5초 후 함수 실행
         // 실제 환경에서는 무한루프로 여기서 서로 요청? 컨펌?을 기다리게 하다가 신호가 오면 호출되도록 하면 될 듯
+        // 비동기가 필요한 부분. send와 receive에 따라서 다름
+        // send는 BLE 신호를 잡고 UWB 거리 측정 후 특정 거리 이하이면서 커넥트 된 UWB에 송금 진행
+        // receive는 BLE 신호를 뿌리고 BLE로 연결이 되면 UWB 연결을 진행
+
 //        CoroutineScope(Dispatchers.Main).launch {
 //            delay(5000L)
 //            if (type == "send") {

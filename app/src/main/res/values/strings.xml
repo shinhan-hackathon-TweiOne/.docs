@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ShinhanTime</string>
+    <string name="app_name">신한타임</string>
     <string name="spinner_default">통신사</string>
     <string-array name="carrier_array">
         <item>통신사</item>
