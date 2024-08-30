@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.example.app.LoginFragment
 import com.example.shinhantime.R
 import com.example.shinhantime.fragment.FingerprintFragment
 import com.example.shinhantime.fragment.PasswordFragment
@@ -22,9 +23,17 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        // 초기 fragment에 password입력을 추가
+        // 내부에 회원 정보가 있다면 password fragment
+//        supportFragmentManager.beginTransaction()
+//            .replace(R.id.fragment_container, PasswordFragment())
+//            .commit()
+
+        // 없다면 회원 로그인 필요, log in fragment 이 후 password fragment로
+        // 만약 회원이 아니라면 sign in fragment
+
+        // 테스트
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, PasswordFragment())
+            .replace(R.id.fragment_container, LoginFragment())
             .commit()
 
         // 1초 후에 FingerprintFragment로 전환
