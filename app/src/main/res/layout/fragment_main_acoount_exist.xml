@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginBottom="10dp"
-        android:text="신한은행"
+        android:text="신한타임"
         android:textColor="@color/black"
         android:textSize="40dp"
         app:layout_constraintBottom_toTopOf="@+id/main_background"

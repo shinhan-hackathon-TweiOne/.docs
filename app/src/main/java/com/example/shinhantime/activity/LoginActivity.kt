@@ -24,17 +24,17 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         // 내부에 회원 정보가 있다면 password fragment
-//        supportFragmentManager.beginTransaction()
-//            .replace(R.id.fragment_container, PasswordFragment())
-//            .commit()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, PasswordFragment())
+            .commit()
 
         // 없다면 회원 로그인 필요, log in fragment 이 후 password fragment로
         // 만약 회원이 아니라면 sign in fragment
 
         // 테스트
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, LoginFragment())
-            .commit()
+//        supportFragmentManager.beginTransaction()
+//            .replace(R.id.fragment_container, LoginFragment())
+//            .commit()
 
         // 1초 후에 FingerprintFragment로 전환
         // handler.postDelayed(runnable, 1000)
