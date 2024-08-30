@@ -1,6 +1,6 @@
-package com.shinhantime.tweione.Controller;
+package com.shinhantime.tweione.S3.Controller;
 
-import com.shinhantime.tweione.Service.S3Service;
+import com.shinhantime.tweione.S3.Service.S3Service;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
