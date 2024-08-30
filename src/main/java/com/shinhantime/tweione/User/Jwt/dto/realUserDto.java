@@ -33,4 +33,13 @@ public class realUserDto {
                         : null)
                 .build();
     }
+
+    public static realUserDto fromEntity(UserEntity entity) {
+        return realUserDto.builder()
+                .id(entity.getId())
+                .currentMoney(entity.getCurrentMoney())
+                .username(entity.getUsername())
+                .name(entity.getName())
+                .build();
+    }
 }
