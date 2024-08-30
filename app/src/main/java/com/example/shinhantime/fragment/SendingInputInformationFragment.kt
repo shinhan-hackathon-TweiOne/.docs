@@ -66,6 +66,7 @@ class SendingInputInformationFragment : Fragment() {
 
     private fun onNextButtonClicked() {
         // 로딩페이지, sendwitch, send 타입으로 ㄱㄱ
+        activity?.finish()
         val intent = Intent(requireContext(), LoadingActivity::class.java)
         intent.putExtra("pageName", "LoadingActivity")
         intent.putExtra("fragmentName", "SendWitch")

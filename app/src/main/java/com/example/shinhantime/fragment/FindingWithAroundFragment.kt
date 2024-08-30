@@ -77,6 +77,7 @@ class FindingWithAroundFragment : Fragment() {
         textView.text = "User $index"
 
         imageButton.setOnClickListener {
+            activity?.finish()
             val intent = Intent(requireContext(), SendingActivity::class.java)
             intent.putExtra("userName", "User $index")
             intent.putExtra("userImage", R.drawable.face0)

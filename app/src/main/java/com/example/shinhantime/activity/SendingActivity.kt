@@ -22,10 +22,6 @@ class SendingActivity : AppCompatActivity() {
         val userName = intent.getStringExtra("userName")
         val userImageRes = intent.getIntExtra("userImage", -1)
 
-        findViewById<Button>(R.id.button_home).setOnClickListener{
-            startActivity(Intent(this, MainActivity::class.java))
-        }
-
         // 전달받은 정보를 fragment로 다시 전달
         val fragment = SendingInputInformationFragment().apply {
             arguments = Bundle().apply {

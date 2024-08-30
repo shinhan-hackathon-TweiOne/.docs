@@ -42,9 +42,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<ImageButton>(R.id.button_fleamarket).setOnClickListener{
+            finish()
             val intent = Intent(this, FleaMarketActivity::class.java)
             startActivity(intent)
-            finish()
         }
 
         // WindowInsets 처리

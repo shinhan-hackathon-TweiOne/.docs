@@ -79,6 +79,7 @@ class SignUpLoginPasswordFragment : Fragment() {
                     // 비밀번호가 일치하면 성공 처리 (예: 비밀번호 등록 로직 호출)
                     Toast.makeText(requireContext(), "비밀번호가 등록되었습니다.", Toast.LENGTH_SHORT).show()
                     // 여기서 실제 비밀번호 등록 로직을 추가할 수 있습니다.
+                    activity?.finish()
                     val intent = Intent(requireContext(), MainActivity::class.java)
                     startActivity(intent)
                 } else {

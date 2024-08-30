@@ -34,8 +34,16 @@ class ConfirmActivity : AppCompatActivity() {
         val fragmentName = intent.getStringExtra("fragmentName")
         val loadType = intent.getStringExtra("loadType")
 
+        val textMessage = findViewById<TextView>(R.id.text_message)
+
         if (pageName != null) {
             setNextPage(pageName, fragmentName ?: "", loadType ?: "")
+        }
+        else if (pageName == "MainActivity") {
+            textMessage.text = "입금을 완료했어요."
+        }
+        else if (pageName == "FleaMarketActivity") {
+            textMessage.text = "입금을 확인했어요."
         }
     }
 
@@ -64,11 +72,11 @@ class ConfirmActivity : AppCompatActivity() {
     private fun navigateToPage(className: Class<*>, fragment: String, type: String) {
         if (isNavigated) return // 이미 전환된 경우 실행하지 않음
         isNavigated = true // 페이지가 전환되었음을 기록
+        finish()
         val intent = Intent(this@ConfirmActivity, className).apply {
             putExtra("fragmentName", fragment)
             putExtra("loadType", type)
         }
         startActivity(intent)
-        finish()
     }
 }

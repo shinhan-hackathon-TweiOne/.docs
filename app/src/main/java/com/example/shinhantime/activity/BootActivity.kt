@@ -25,9 +25,9 @@ class BootActivity : AppCompatActivity() {
         // 현재는 2초 뒤에 바로 로딩화면이 나오도록 되어있는데 바로 시작해도 됨
         // 로고, 앱 이름 등을 보여주기 위한 딜레이임
         handler.postDelayed({
+            finish()
             val intent = Intent(this, LoadingActivity::class.java)
             startActivity(intent)
-            finish()
         }, 2000)
     }
 

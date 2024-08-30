@@ -17,10 +17,6 @@ class FindingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_finding)
 
-        findViewById<Button>(R.id.button_home).setOnClickListener{
-            startActivity(Intent(this, MainActivity::class.java))
-        }
-
         // 메인 기본 => 내 주변 찾기로 설정
         val fragment = FindingWithAroundFragment().apply {
             arguments = Bundle().apply {

@@ -16,6 +16,7 @@ import com.example.shinhantime.R
 import com.example.shinhantime.activity.ConfirmActivity
 import com.example.shinhantime.activity.LoadingActivity
 import com.example.shinhantime.activity.MainActivity
+import com.example.shinhantime.activity.SendingActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -45,7 +46,10 @@ class LoadingSendWitchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // 로드 타입이 뭔지 intent로 받아옴
+        val lastActivity = arguments?.getString("pageName").toString()
         type = arguments?.getString("loadType").toString()
+
+        println("LAST ACTIVITY TO " + lastActivity)
 
         // send에서 넘어온 경우
         if (type == "send")
@@ -94,33 +98,47 @@ class LoadingSendWitchFragment : Fragment() {
 
         }
 
-        // 홈 버튼 설정
-        view.findViewById<Button>(R.id.button_home).setOnClickListener{ goHome() }
-
         boxes = boxIds.map { view.findViewById<View>(it) }
         startAnimation()
 
         // 5초 후 함수 실행
         // 실제 환경에서는 무한루프로 여기서 서로 요청? 컨펌?을 기다리게 하다가 신호가 오면 호출되도록 하면 될 듯
+//        CoroutineScope(Dispatchers.Main).launch {
+//            delay(5000L)
+//            if (type == "send") {
+//                completeSending()
+//            } else if (type == "receive") {
+//                completeReceiving()
+//            }
+//        }
+
+        // 30초 후에 자동으로 이전 액티비티나 프래그먼트로 돌아가기
         CoroutineScope(Dispatchers.Main).launch {
-            delay(5000L)
-            if (type == "send") {
-                completeSending()
-            } else if (type == "receive") {
-                completeReceiving()
+//            delay(30000L) // 30초 대기
+            delay(5000L) // 30초 대기
+            if (isAdded && context != null) {
+                goBack(lastActivity)
             }
         }
     }
 
-    private fun goHome() {
-        // 홈(Main)으로 이동
-        val intent = Intent(requireContext(), MainActivity::class.java)
-        startActivity(intent)
-        activity?.finish()
+    private fun goBack(name: String) {
+        if (isAdded && context != null) {
+            try {
+                val className = Class.forName("com.example.shinhantime.activity.$name")
+                activity?.finish()
+                val intent = Intent(requireContext(), className)
+                startActivity(intent)
+            } catch (e: ClassNotFoundException) {
+                e.printStackTrace()
+                // 클래스가 존재하지 않을 경우 예외 처리
+            }
+        }
     }
 
     private fun completeSending() {
         if (isAdded) {
+            activity?.finish()
             val intent = Intent(requireContext(), ConfirmActivity::class.java)
             intent.putExtra("pageName", "MainActivity")
             startActivity(intent)
@@ -129,10 +147,9 @@ class LoadingSendWitchFragment : Fragment() {
 
     private fun completeReceiving() {
         if (isAdded) {
+            activity?.finish()
             val intent = Intent(requireContext(), ConfirmActivity::class.java)
-            intent.putExtra("pageName", "LoadingActivity")
-            intent.putExtra("fragmentName", "SendWitch")
-            intent.putExtra("loadType", "receive")
+            intent.putExtra("pageName", "FleaMarketActivity")
             startActivity(intent)
         }
     }

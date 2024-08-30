@@ -49,6 +49,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun goSignUp() {
+        activity?.finish()
         val intent = Intent(requireContext(), SignUpActivity::class.java)
         startActivity(intent)
     }

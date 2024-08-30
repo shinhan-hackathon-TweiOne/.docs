@@ -11,16 +11,18 @@ import com.example.shinhantime.fragment.LoadingBootFragment
 class LoadingActivity : AppCompatActivity() {
 
     private val handler = Handler()
+    private lateinit var returnPage: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loading)
 
-        // intent pageName으로 받아온게 sendwitch인기 구분
-        val fragmentName = intent.getStringExtra("fragmentName")
+        returnPage = intent.getStringExtra("pageName").toString()
 
-        println(fragmentName)
-        println(intent.getStringExtra("loadType"))
+        println("RETURN TO" + returnPage)
+
+        // intent fragmentName으로 받아온게 sendwitch인기 구분
+        val fragmentName = intent.getStringExtra("fragmentName")
 
         // sendwitch 로딩 페이지 요청이라면
         if (fragmentName == "SendWitch")
@@ -31,6 +33,7 @@ class LoadingActivity : AppCompatActivity() {
             // loadingtype이 send인지 receive인지 fragement로 넘겨줌
             val fragment = LoadingSendWitchFragment().apply {
                 arguments = Bundle().apply {
+                    putString("pageName", returnPage)
                     putString("loadType", type)
                 }
             }
@@ -46,12 +49,30 @@ class LoadingActivity : AppCompatActivity() {
                 .commit()
 
             handler.postDelayed({
+                finish()
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
-                finish() // 현재 Activity 종료
             }, 1000)
         }
     }
+
+    override fun onBackPressed() {
+        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+
+
+        if (fragment is LoadingSendWitchFragment) {
+            finish()
+            goBack()
+        }
+        else super.onBackPressed()
+    }
+
+    private fun goBack() {
+        val className = Class.forName("com.example.shinhantime.activity.$returnPage")
+        val intent = Intent(this, className)
+        startActivity(intent)
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()
