@@ -1,5 +1,6 @@
 package com.example.app
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,9 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.shinhantime.R
+import com.example.shinhantime.activity.LoadingActivity
 import com.example.shinhantime.activity.LoginActivity
+import com.example.shinhantime.activity.SignUpActivity
 
 class LoginFragment : Fragment() {
 
@@ -39,10 +42,15 @@ class LoginFragment : Fragment() {
         // 회원가입 버튼 클릭 리스너 설정
         buttonSignUp.setOnClickListener {
             // SignUpFragment로 이동하는 NavController 설정 (Navigation 사용 시)
-
+            goSignUp()
         }
 
         return view
+    }
+
+    private fun goSignUp() {
+        val intent = Intent(requireContext(), SignUpActivity::class.java)
+        startActivity(intent)
     }
 
     // 로그인 버튼 클릭 시 처리 로직

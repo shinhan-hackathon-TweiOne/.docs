@@ -49,6 +49,10 @@
             android:name=".activity.FleaMarketActivity"
             android:exported="false">
         </activity>
+        <activity
+            android:name=".activity.SignUpActivity"
+            android:exported="false">
+        </activity>
     </application>
 
 </manifest>

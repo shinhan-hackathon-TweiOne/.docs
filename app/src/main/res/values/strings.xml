@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">ShinhanTime</string>
+    <string name="spinner_default">통신사</string>
+    <string-array name="carrier_array">
+        <item>통신사</item>
+        <item>SKT</item>
+        <item>KT</item>
+        <item>LG U+</item>
+        <item>알뜰폰</item>
+    </string-array>
 </resources>
