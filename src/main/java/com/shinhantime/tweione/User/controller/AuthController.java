@@ -69,6 +69,7 @@ public class AuthController {
         message.setFrom(fromNumber);
         message.setTo(phoneNumber);
         message.setText("[신한타임] 인증 코드 [" + authCode + "]를 입력해주세요.");
+        this.messageService.sendOne(new SingleMessageSendingRequest(message));
         System.out.println("[신한타임] 인증 코드 [" + authCode + "]를 입력해주세요.");
         return new AuthResponse(200,true, "메세지 전송에 성공하였습니다.");
     }
