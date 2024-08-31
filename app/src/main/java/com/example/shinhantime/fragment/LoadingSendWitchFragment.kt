@@ -1,29 +1,72 @@
+import android.Manifest
 import android.animation.Animator
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
-import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.findViewTreeViewModelStoreOwner
 import com.example.shinhantime.R
 import com.example.shinhantime.activity.ConfirmActivity
-import com.example.shinhantime.activity.LoadingActivity
-import com.example.shinhantime.activity.MainActivity
-import com.example.shinhantime.activity.SendingActivity
+import com.example.shinhantime.networks.BLEDeviceConnection
+import com.example.shinhantime.networks.BLEScanner
+import com.example.shinhantime.networks.DeviceInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LoadingSendWitchFragment : Fragment() {
+
+    private val permissions = arrayOf(
+        Manifest.permission.BLUETOOTH_SCAN,
+        Manifest.permission.BLUETOOTH_CONNECT,
+        Manifest.permission.ACCESS_FINE_LOCATION
+    )
+
+    private fun checkPermissions() {
+        if (permissions.all { ActivityCompat.checkSelfPermission(requireContext(), it) == PackageManager.PERMISSION_GRANTED }) {
+            startBLEProcess() // All permissions are granted, start BLE process
+        } else {
+            requestPermissions(permissions, PERMISSION_REQUEST_CODE)
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
+                startBLEProcess() // All permissions granted, start BLE process
+            } else {
+                // Handle the case where the user denies the permissions
+                Toast.makeText(requireContext(), "Permissions required for BLE scanning", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    companion object {
+        private const val PERMISSION_REQUEST_CODE = 1
+    }
+
+    private lateinit var bleScanner: BLEScanner
+    private var bleDeviceConnection: BLEDeviceConnection? = null
 
     private lateinit var type: String
     private lateinit var boxes: List<View>
@@ -34,96 +77,116 @@ class LoadingSendWitchFragment : Fragment() {
     )
     private var navigationJob: Job? = null  // 코루틴 작업을 관리하는 Job 객체
     private lateinit var lastActivity: String
+    private val triedDevices = mutableSetOf<String>() // Set to track tried devices
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         return inflater.inflate(R.layout.fragment_loading_sendwitch, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 로드 타입이 뭔지 intent로 받아옴
         lastActivity = arguments?.getString("pageName").toString()
         type = arguments?.getString("loadType").toString()
 
         println("LAST ACTIVITY TO " + lastActivity)
 
-        // send에서 넘어온 경우
-        if (type == "send")
-        {
-            // send 용으로 페이지 전환
+        if (type == "send") {
             view.findViewById<TextView>(R.id.text_action).text = "보내는 중 ..."
-            view.findViewById<View>(R.id.box1).alpha = 1.0f
-            view.findViewById<View>(R.id.box1).background = ColorDrawable(Color.parseColor("#0046ff"))
-
-            view.findViewById<View>(R.id.box2).alpha = 1.0f
-            view.findViewById<View>(R.id.box2).background = ColorDrawable(Color.parseColor("#5CCFD3"))
-
-            view.findViewById<View>(R.id.box3).alpha = 1.0f
-            view.findViewById<View>(R.id.box3).background = ColorDrawable(Color.parseColor("#F5B265"))
-
-            view.findViewById<View>(R.id.box4).alpha = 0.5f
-            view.findViewById<View>(R.id.box4).background = ColorDrawable(Color.parseColor("#0046ff"))
-
-            view.findViewById<View>(R.id.box5).alpha = 0.5f
-            view.findViewById<View>(R.id.box5).background = ColorDrawable(Color.parseColor("#5CCFD3"))
-
-            view.findViewById<View>(R.id.box6).alpha = 0.5f
-            view.findViewById<View>(R.id.box6).background = ColorDrawable(Color.parseColor("#F5B265"))
-        }
-        else if (type == "receive")
-        {
-            // receive 용으로 전환
+            setupSendBoxes(view)
+            checkPermissions()
+        } else if (type == "receive") {
             view.findViewById<TextView>(R.id.text_action).text = "받는 중 ..."
-            view.findViewById<View>(R.id.box1).alpha = 0.5f
-            view.findViewById<View>(R.id.box1).background = ColorDrawable(Color.parseColor("#F5B265"))
-
-            view.findViewById<View>(R.id.box2).alpha = 0.5f
-            view.findViewById<View>(R.id.box2).background = ColorDrawable(Color.parseColor("#5CCFD3"))
-
-            view.findViewById<View>(R.id.box3).alpha = 0.5f
-            view.findViewById<View>(R.id.box3).background = ColorDrawable(Color.parseColor("#0046ff"))
-
-            view.findViewById<View>(R.id.box4).alpha = 1.0f
-            view.findViewById<View>(R.id.box4).background = ColorDrawable(Color.parseColor("#F5B265"))
-
-            view.findViewById<View>(R.id.box5).alpha = 1.0f
-            view.findViewById<View>(R.id.box5).background = ColorDrawable(Color.parseColor("#5CCFD3"))
-
-            view.findViewById<View>(R.id.box6).alpha = 1.0f
-            view.findViewById<View>(R.id.box6).background = ColorDrawable(Color.parseColor("#0046ff"))
-
+            setupReceiveBoxes(view)
         }
 
         boxes = boxIds.map { view.findViewById<View>(it) }
         startAnimation()
+    }
 
-        // 실제 환경에서는 무한루프로 여기서 서로 요청? 컨펌?을 기다리게 하다가 신호가 오면 호출되도록 하면 될 듯
-        // 비동기가 필요한 부분. send와 receive에 따라서 다름
-        // send는 BLE 신호를 잡고 UWB 거리 측정 후 특정 거리 이하이면서 커넥트 된 UWB에 송금 진행
-        // receive는 BLE 신호를 뿌리고 BLE로 연결이 되면 UWB 연결을 진행
+    private fun setupSendBoxes(view: View) {
+        view.findViewById<View>(R.id.box1).alpha = 1.0f
+        view.findViewById<View>(R.id.box1).background = ColorDrawable(Color.parseColor("#0046ff"))
+
+        view.findViewById<View>(R.id.box2).alpha = 1.0f
+        view.findViewById<View>(R.id.box2).background = ColorDrawable(Color.parseColor("#5CCFD3"))
+
+        view.findViewById<View>(R.id.box3).alpha = 1.0f
+        view.findViewById<View>(R.id.box3).background = ColorDrawable(Color.parseColor("#F5B265"))
+
+        view.findViewById<View>(R.id.box4).alpha = 0.5f
+        view.findViewById<View>(R.id.box4).background = ColorDrawable(Color.parseColor("#0046ff"))
+
+        view.findViewById<View>(R.id.box5).alpha = 0.5f
+        view.findViewById<View>(R.id.box5).background = ColorDrawable(Color.parseColor("#5CCFD3"))
+
+        view.findViewById<View>(R.id.box6).alpha = 0.5f
+        view.findViewById<View>(R.id.box6).background = ColorDrawable(Color.parseColor("#F5B265"))
+    }
+
+    private fun setupReceiveBoxes(view: View) {
+        view.findViewById<View>(R.id.box1).alpha = 0.5f
+        view.findViewById<View>(R.id.box1).background = ColorDrawable(Color.parseColor("#F5B265"))
+
+        view.findViewById<View>(R.id.box2).alpha = 0.5f
+        view.findViewById<View>(R.id.box2).background = ColorDrawable(Color.parseColor("#5CCFD3"))
+
+        view.findViewById<View>(R.id.box3).alpha = 0.5f
+        view.findViewById<View>(R.id.box3).background = ColorDrawable(Color.parseColor("#0046ff"))
+
+        view.findViewById<View>(R.id.box4).alpha = 1.0f
+        view.findViewById<View>(R.id.box4).background = ColorDrawable(Color.parseColor("#F5B265"))
+
+        view.findViewById<View>(R.id.box5).alpha = 1.0f
+        view.findViewById<View>(R.id.box5).background = ColorDrawable(Color.parseColor("#5CCFD3"))
+
+        view.findViewById<View>(R.id.box6).alpha = 1.0f
+        view.findViewById<View>(R.id.box6).background = ColorDrawable(Color.parseColor("#0046ff"))
+    }
+
+    private fun startBLEProcess() {
+        // Initialize BLEScanner
+        bleScanner = BLEScanner(requireContext())
 
         CoroutineScope(Dispatchers.Main).launch {
-            delay(5000L)
-            if (type == "send") {
-                completeSending()
-            } else if (type == "receive") {
-                completeReceiving()
+            bleScanner.startScanning()
+
+            bleScanner.foundDevices.collectLatest { devices ->
+                for (deviceInfo in devices) {
+                    if (!triedDevices.contains(deviceInfo.device.address)) {
+                        connectToDeviceSequentially(deviceInfo)
+                    }
+                }
             }
         }
+    }
 
-        // 30초 후에 자동으로 이전 액티비티나 프래그먼트로 돌아가기
-//        CoroutineScope(Dispatchers.Main).launch {
-////            delay(30000L) // 30초 대기
-//            delay(5000L) // 30초 대기
-//            if (isAdded && context != null) {
-//                goBack()
-//            }
-//        }
+    @SuppressLint("MissingPermission")
+    private suspend fun connectToDeviceSequentially(deviceInfo: DeviceInfo) {
+        // Add device to the tried list
+        triedDevices.add(deviceInfo.device.address)
+
+        bleDeviceConnection = BLEDeviceConnection(requireContext(), deviceInfo)
+
+        withContext(Dispatchers.Main) {
+            bleDeviceConnection?.connect()
+            bleDeviceConnection?.isConnected?.collectLatest { isConnected ->
+                if (isConnected) {
+                    Log.w("BLEConnection", "Connected to device: ${deviceInfo.device.name}")
+                    bleDeviceConnection?.discoverServicesWithDelay()
+                    bleDeviceConnection?.readPassword()
+                    bleDeviceConnection?.writeName()
+                    // Add any additional steps here
+
+                    // Optional: Add a delay or further operations between connections
+                } else {
+                    Log.d("BLEConnection", "Failed to connect to device: ${deviceInfo.device.name}")
+                }
+            }
+        }
     }
 
     private fun goBack() {
@@ -135,7 +198,6 @@ class LoadingSendWitchFragment : Fragment() {
                 startActivity(intent)
             } catch (e: ClassNotFoundException) {
                 e.printStackTrace()
-                // 클래스가 존재하지 않을 경우 예외 처리
             }
         }
     }
