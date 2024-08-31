@@ -25,9 +25,6 @@ class FingerprintFragment : Fragment() {
        // view.findViewById<View>(R.id.authenticate_button).setOnClickListener {
        //     (activity as? LoginActivity)?.onFingerprintAuthenticated()
         //}
-
-        view.findViewById<View>(R.id.button_cancel).setOnClickListener {
-            (activity as? LoginActivity)?.onFingerprintCancelled()
-        }
+        
     }
 }

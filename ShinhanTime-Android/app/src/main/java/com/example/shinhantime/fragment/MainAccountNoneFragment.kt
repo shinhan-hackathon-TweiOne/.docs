@@ -11,14 +11,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import com.example.shinhantime.Account
 import com.example.shinhantime.R
 import com.example.shinhantime.RetrofitInstances
+import com.example.shinhantime.SendOneWonRequest
+import com.example.shinhantime.SendOneWonResponse
 import com.example.shinhantime.VerifyAuthResponse
+import com.example.shinhantime.networks.BLEScanner
+import com.example.shinhantime.networks.BLEDeviceConnection
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
 class MainAccountNoneFragment : Fragment() {
+
+    private lateinit var bleScanner: BLEScanner
+    private var bleDeviceConnection: BLEDeviceConnection? = null
 
     private lateinit var constraintLayoutAccount: ConstraintLayout
     private lateinit var constraintLayoutAccountVerification: ConstraintLayout
@@ -80,6 +89,41 @@ class MainAccountNoneFragment : Fragment() {
     private fun sendOneWon() {
         constraintLayoutAccount.visibility = View.GONE
         constraintLayoutAccountVerification.visibility = View.VISIBLE
+
+        val sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", AppCompatActivity.MODE_PRIVATE)
+        val userId = sharedPreferences.getInt("userId", -1)
+        val accountNo = editTextAccount.text.toString()
+        val bankName = editTextBank.text.toString()
+
+        if (userId == -1) {
+            Toast.makeText(requireContext(), "유저 ID를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val requestBody = SendOneWonRequest(
+            accountNo = accountNo,
+            bankName = bankName
+        )
+
+        RetrofitInstances.userApiService.sendOneWon(userId, requestBody)
+            .enqueue(object : Callback<SendOneWonResponse> {
+                override fun onResponse(call: Call<SendOneWonResponse>, response: Response<SendOneWonResponse>) {
+                    if (response.isSuccessful && response.body()?.success == true) {
+                        // 1원 송금 성공 시 처리
+                        Toast.makeText(requireContext(), "1원 송금 성공", Toast.LENGTH_SHORT).show()
+                        constraintLayoutAccount.visibility = View.GONE
+                        constraintLayoutAccountVerification.visibility = View.VISIBLE
+                    } else {
+                        // 실패 처리
+                        Toast.makeText(requireContext(), "1원 송금 실패: ${response.body()?.message}", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<SendOneWonResponse>, t: Throwable) {
+                    // 네트워크 오류 등 처리
+                    Toast.makeText(requireContext(), "1원 송금 실패: ${t.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
     }
 
     private fun verifyAccount() {
@@ -105,16 +149,58 @@ class MainAccountNoneFragment : Fragment() {
                 override fun onResponse(call: Call<VerifyAuthResponse>, response: Response<VerifyAuthResponse>) {
                     if (response.isSuccessful) {
                         Toast.makeText(requireContext(), "계좌 인증 성공", Toast.LENGTH_SHORT).show()
-                        requireActivity().supportFragmentManager.beginTransaction()
-                            .replace(R.id.fragment_container, MainAccountExistFragment())
-                            .commit()
+                        fetchAccountInfo(userId)
                     } else {
                         Toast.makeText(requireContext(), "계좌 인증 실패", Toast.LENGTH_SHORT).show()
+                        constraintLayoutAccountVerification.visibility = View.GONE
                     }
                 }
 
                 override fun onFailure(call: Call<VerifyAuthResponse>, t: Throwable) {
                     Toast.makeText(requireContext(), "계좌 인증 실패: ${t.message}", Toast.LENGTH_SHORT).show()
+                    constraintLayoutAccountVerification.visibility = View.GONE
+                }
+            })
+    }
+
+    private fun fetchAccountInfo(userId: Int) {
+        RetrofitInstances.userApiService.getUserAccounts(userId)
+            .enqueue(object : Callback<List<Account>> {
+                override fun onResponse(call: Call<List<Account>>, response: Response<List<Account>>) {
+                    if (response.isSuccessful) {
+                        val accounts = response.body()
+                        if (!accounts.isNullOrEmpty()) {
+                            val mainAccount = accounts[0] // Assuming the first account is the main account
+                            setMainAccount(userId, mainAccount.id)
+                        } else {
+                            Toast.makeText(requireContext(), "계좌 정보를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Toast.makeText(requireContext(), "계좌 정보 가져오기 실패", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<List<Account>>, t: Throwable) {
+                    Toast.makeText(requireContext(), "계좌 정보 가져오기 실패: ${t.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
+    }
+    private fun setMainAccount(userId: Int, accountId: Int) {
+        RetrofitInstances.userApiService.setMainAccount(userId, accountId)
+            .enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(requireContext(), "메인 계좌 설정 성공", Toast.LENGTH_SHORT).show()
+                        requireActivity().supportFragmentManager.beginTransaction()
+                            .replace(R.id.fragment_container, MainAccountExistFragment())
+                            .commit()
+                    } else {
+                        Toast.makeText(requireContext(), "메인 계좌 설정 실패", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    Toast.makeText(requireContext(), "메인 계좌 설정 실패: ${t.message}", Toast.LENGTH_SHORT).show()
                 }
             })
     }

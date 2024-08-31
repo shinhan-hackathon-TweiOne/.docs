@@ -1,6 +1,5 @@
 package com.example.shinhantime.activity
 
-import FleaMarketFragment
 import FleaMarketViewModel
 import android.content.Intent
 import android.os.Bundle

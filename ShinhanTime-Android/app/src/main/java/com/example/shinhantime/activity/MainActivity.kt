@@ -69,10 +69,6 @@ class MainActivity : AppCompatActivity() {
 
         if (userId == -1) {
             Toast.makeText(this, "유저 ID를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
-            // 지워라
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, MainAccountExistFragment())
-                .commit()
             return
         }
 
@@ -82,12 +78,16 @@ class MainActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         val userInfo = response.body()
 
+                        println(response)
+
                         if (userInfo?.mainAccount == null) {
+                            println("정보가 없어")
                             // Main Account 정보가 없는 경우
                             supportFragmentManager.beginTransaction()
                                 .replace(R.id.fragment_container, MainAccountNoneFragment())
                                 .commit()
                         } else {
+                            println("정보가 있어")
                             // Main Account 정보가 있는 경우
                             supportFragmentManager.beginTransaction()
                                 .replace(R.id.fragment_container, MainAccountExistFragment())
