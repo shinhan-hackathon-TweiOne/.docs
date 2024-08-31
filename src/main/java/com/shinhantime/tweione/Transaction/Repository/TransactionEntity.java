@@ -31,6 +31,9 @@ public class TransactionEntity {
     @Column(name = "transaction_date", nullable = false)
     private LocalDateTime transactionDate;
 
+    @Column(name = "transaction_Hash")
+    private String transactionHash;
+
     @PrePersist
     protected void onCreate() {
         this.transactionDate = LocalDateTime.now();
