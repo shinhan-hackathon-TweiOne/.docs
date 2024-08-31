@@ -77,7 +77,7 @@
 <img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&logoColor=white">
 
 ### 💾 ERD
-<img src="">
+![erd](https://github.com/user-attachments/assets/91b3e006-ee1e-4803-8369-b1eec6271474)
 
 ## 🐣 빌드 및 배포
 
