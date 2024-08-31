@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/accounts")
+@RequestMapping("/api")
 public class AccountController {
 
     private final AccountService accountService;
@@ -26,29 +26,29 @@ public class AccountController {
     }
 
     // Get list of accounts by user ID
-    @GetMapping("/user/{userId}")
+    @GetMapping("/accounts/{userId}")
     public ResponseEntity<List<AccountDTO>> getAccountsByUserId(@PathVariable Long userId) {
         List<AccountDTO> accounts = accountService.getAccountsByUserId(userId);
         return ResponseEntity.ok(accounts);
     }
 
     // Create a new account for a user
-    @PostMapping("/user/{userId}")
+    @PostMapping("/accounts/{userId}")
     public AuthDto.AuthResponse sendAuth(
             @PathVariable Long userId,
             @RequestBody AuthDto.AuthRequest authRequest) throws Exception {
 
-        apiService.sendAuth(authRequest.accountNo);
+        apiService.sendAuth(authRequest.accountNo, userId);
 
         return new AuthDto.AuthResponse(200, true, "송금에 성공했습니다");
     }
 
-    @PostMapping("/user/{userId}/verify")
+    @PostMapping("/accounts/{userId}/verify")
     public VerifayDto.VerifyResponse createAccount(
             @PathVariable Long userId,
             @RequestBody VerifayDto.VerifyRequest verifyRequest) throws Exception {
 
-        apiService.verifyAuth(verifyRequest.getAccountNo(), verifyRequest.getAuthCode());
+        apiService.verifyAuth(verifyRequest.getAccountNo(), verifyRequest.getAuthCode(), userId);
         accountService.createOrUpdateAccount(userId, verifyRequest.getAccountNo(), verifyRequest.getBankName());
 
         return new VerifayDto.VerifyResponse(200, true, "계좌등록에 성공했습니다.");
@@ -56,13 +56,24 @@ public class AccountController {
     }
 
     // Set a representative account for a user
-    @PostMapping("/user/{userId}/main-account/{accountId}")
+    @PostMapping("/accounts/user/{userId}/main-account/{accountId}")
     public ResponseEntity<realUserDto> setRepresentativeAccount(
             @PathVariable Long userId,
             @PathVariable Long accountId) {
 
         realUserDto user = accountService.setMainAccount(userId, accountId);
         return ResponseEntity.ok(user);
+    }
+
+
+    @PostMapping("/accounts/{userId}/{balance}")
+    public AuthDto.AuthResponse recharge(
+            @PathVariable Long userId,
+            @PathVariable String balance) throws Exception {
+
+        apiService.recharge(balance, userId);
+
+        return new AuthDto.AuthResponse(200, true, "충전에 성공했습니다.");
     }
 
 }

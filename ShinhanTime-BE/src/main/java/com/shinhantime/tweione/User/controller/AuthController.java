@@ -12,7 +12,7 @@ import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import net.nurigo.sdk.message.service.DefaultMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
+//import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -42,18 +42,17 @@ public class AuthController {
     private final UserRepository userRepository;
 
 
-    @Autowired
-    private RedisTemplate<String, String> redisTemplate;
+    // @Autowired
+    // private RedisTemplate<String, String> redisTemplate;
 
     @Autowired
     public AuthController(@Value("${api.coolsms.API_KEY}") String apiKey,
                           @Value("${api.coolsms.API_SECRET_KEY}") String apiSecretKey,
-                          @Value("${api.coolsms.API_URL}") String apiUrl, UserService userService, UserRepository userRepository,
-                          RedisTemplate<String, String> redisTemplate) {
+                          @Value("${api.coolsms.API_URL}") String apiUrl, UserService userService, UserRepository userRepository) {
         this.userService = userService;
         this.userRepository = userRepository;
         this.messageService = NurigoApp.INSTANCE.initialize(apiKey, apiSecretKey, apiUrl);
-        this.redisTemplate = redisTemplate;
+        //this.redisTemplate = redisTemplate;
     }
 
 
@@ -64,12 +63,13 @@ public class AuthController {
         System.out.println(phoneNumber);
         System.out.println(fromNumber);
         String authCode = generateAuthCode();
-        redisTemplate.opsForValue().set(phoneNumber, authCode, 5, TimeUnit.MINUTES);
+        //redisTemplate.opsForValue().set(phoneNumber, authCode, 5, TimeUnit.MINUTES);
 
         Message message = new Message();
         message.setFrom(fromNumber);
         message.setTo(phoneNumber);
         message.setText("[신한타임] 인증 코드 [" + authCode + "]를 입력해주세요.");
+        this.messageService.sendOne(new SingleMessageSendingRequest(message));
         System.out.println("[신한타임] 인증 코드 [" + authCode + "]를 입력해주세요.");
         return new AuthResponse(200,true, "메세지 전송에 성공하였습니다.");
     }
@@ -81,7 +81,7 @@ public class AuthController {
         System.out.println(phoneNumber);
         System.out.println(fromNumber);
         String authCode = generateAuthCode();
-        redisTemplate.opsForValue().set(phoneNumber, authCode, 5, TimeUnit.MINUTES);
+        //redisTemplate.opsForValue().set(phoneNumber, authCode, 5, TimeUnit.MINUTES);
         System.out.println("[신한타임] 인증 코드 [" + authCode + "]를 입력해주세요.");
         return new AuthResponse(200,true, "[신한타임] 인증 코드 [" + authCode + "]를 입력해주세요.");
     }
@@ -90,9 +90,9 @@ public class AuthController {
     public AuthVerifyResponse verifyAuthCode(@RequestBody AuthRegisterDto authRegisterDto) {
         String phoneNumber =authRegisterDto.getPhoneNumber();
         String authCode = authRegisterDto.getAuthCode();
-        String storedAuthCode = redisTemplate.opsForValue().get(phoneNumber);
+        //String storedAuthCode = redisTemplate.opsForValue().get(phoneNumber);
 
-        if (storedAuthCode != null && storedAuthCode.equals(authCode)) {
+        //if (storedAuthCode != null && storedAuthCode.equals(authCode)) {
             SignUpDto signUpDto = SignUpDto.builder()
                     .username(authRegisterDto.getPhoneNumber())
                     .name(authRegisterDto.getName())
@@ -116,9 +116,9 @@ public class AuthController {
                 log.error("Sign-in failed for username: {}. Error: {}", username, e.getMessage());
                 throw e;
             }
-        } else {
-            return new AuthVerifyResponse(401, false, "인증번호가 불일치합니다.", null, null);
-        }
+       // } else {
+        //    return new AuthVerifyResponse(401, false, "인증번호가 불일치합니다.", null, null);
+        //}
     }
 
     private String generateAuthCode() {

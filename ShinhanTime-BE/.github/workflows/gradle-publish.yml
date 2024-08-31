@@ -83,6 +83,7 @@ jobs:
         key: "${{ secrets.GDP_KEY }}"
         script: |
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}
+            sudo docker-compose down
             sudo docker-compose -f "docker-compose.yml" up -d --build
     ## 실행
 
