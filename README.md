@@ -198,6 +198,7 @@ jobs:
         docker build -f Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }} .
         docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}
 
+    ## 실행되고 있는 IP 가져와서 EC2 보안 그룹에 추가하여 접근하기
     - name: Get Public IP
       id: ip
       uses: haythem/public-ip@v1.3
@@ -231,7 +232,7 @@ jobs:
             sudo docker-compose down
             sudo docker-compose -f "docker-compose.yml" up -d --build
     ## 실행
-
+    ## 사용한 IP 보안 그룹 삭제
     - name: Remove GitHub Actions IP
       run: |
         aws ec2 revoke-security-group-ingress \
