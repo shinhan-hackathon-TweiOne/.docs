@@ -16,6 +16,7 @@ public class TransactionDTO {
     private realUserDto toUser;
     private Long amount;
     private LocalDateTime timestamp;
+    private String transactionHash;
 
     public static TransactionDTO fromEntity(TransactionEntity entity) {
         return TransactionDTO.builder()
@@ -24,6 +25,7 @@ public class TransactionDTO {
                 .toUser(realUserDto.fromEntity(entity.getToUser()))
                 .amount(entity.getAmount())
                 .timestamp(entity.getTransactionDate())
+                .transactionHash(entity.getTransactionHash())
                 .build();
     }
 }
