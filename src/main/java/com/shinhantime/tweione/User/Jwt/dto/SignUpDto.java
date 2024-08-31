@@ -23,7 +23,8 @@ public class SignUpDto {
                 .name(name)
                 .currentMoney(1000000L)
                 .roles(roles)
-                .wallet(wallet)
+                .walletAddress(wallet.getWalletAddress())
+                .walletKeyStore(wallet.getWalletFileName())
                 .build();
     }
 

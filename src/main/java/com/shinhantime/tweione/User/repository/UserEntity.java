@@ -39,8 +39,11 @@ public class UserEntity implements UserDetails {
     @Column(name = "current_money")
     private Long currentMoney;
 
-    @Column(name = "wallet")
-    private Wallet wallet;
+    @Column(name = "wallet_address")
+    private String walletAddress;
+
+    @Column(name = "wallet_keystore")
+    private String walletKeyStore;
 
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

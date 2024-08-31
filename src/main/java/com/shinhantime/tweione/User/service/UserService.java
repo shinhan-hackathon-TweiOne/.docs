@@ -13,7 +13,4 @@ public interface UserService {
     realUserDto getUserById(Long id);  // 유저 조회 메서드
     void transferMoney(Long fromUserId, Long toUserId, Long amount);
 
-    Wallet getNewWallet(String password);
-
-    void chargeNewAccount(Wallet wallet, Long amount);
 }
