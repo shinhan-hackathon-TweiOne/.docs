@@ -18,20 +18,8 @@ class SendingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sending)
 
-        // intent로 전달받은 유저 이름, 이미지 등 정보
-        val userName = intent.getStringExtra("userName")
-        val userImageRes = intent.getIntExtra("userImage", -1)
-
-        // 전달받은 정보를 fragment로 다시 전달
-        val fragment = SendingInputInformationFragment().apply {
-            arguments = Bundle().apply {
-                putString("userName", userName)
-                putInt("userImage", userImageRes)
-            }
-        }
-
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, fragment)
+            .replace(R.id.fragment_container, SendingInputInformationFragment())
             .commit()
     }
 }

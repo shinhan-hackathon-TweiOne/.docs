@@ -68,7 +68,7 @@ class SendingInputInformationFragment : Fragment() {
         // 로딩페이지, sendwitch, send 타입으로 ㄱㄱ
         activity?.finish()
         val intent = Intent(requireContext(), LoadingActivity::class.java)
-        intent.putExtra("pageName", "LoadingActivity")
+        intent.putExtra("pageName", "MainActivity")
         intent.putExtra("fragmentName", "SendWitch")
         intent.putExtra("loadType", "send")
         startActivity(intent)
@@ -142,23 +142,6 @@ class SendingInputInformationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val textto = view.findViewById<TextView>(R.id.text_to)
-        val imagelogo = view.findViewById<ImageView>(R.id.image_to_logo)
-
-        // 전달된 사용자 정보 받기
-        val userName = arguments?.getString("userName")
-        val userImageRes = arguments?.getInt("userImage")
-
-        // 이름 설정
-        if (userName != null) {
-            textto.text = userName
-        }
-
-        // 이미지 설정
-        if (userImageRes != null && userImageRes != -1) {
-            imagelogo.setImageResource(userImageRes)
-        }
 
         // UI 요소 연결
         val textAmount = view.findViewById<TextView>(R.id.text_amount)

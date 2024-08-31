@@ -33,6 +33,7 @@ class LoadingSendWitchFragment : Fragment() {
         R.id.box1, R.id.box2, R.id.box3, R.id.box4, R.id.box5, R.id.box6
     )
     private var navigationJob: Job? = null  // 코루틴 작업을 관리하는 Job 객체
+    private lateinit var lastActivity: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,7 +47,7 @@ class LoadingSendWitchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // 로드 타입이 뭔지 intent로 받아옴
-        val lastActivity = arguments?.getString("pageName").toString()
+        lastActivity = arguments?.getString("pageName").toString()
         type = arguments?.getString("loadType").toString()
 
         println("LAST ACTIVITY TO " + lastActivity)
@@ -106,29 +107,29 @@ class LoadingSendWitchFragment : Fragment() {
         // send는 BLE 신호를 잡고 UWB 거리 측정 후 특정 거리 이하이면서 커넥트 된 UWB에 송금 진행
         // receive는 BLE 신호를 뿌리고 BLE로 연결이 되면 UWB 연결을 진행
 
-//        CoroutineScope(Dispatchers.Main).launch {
-//            delay(5000L)
-//            if (type == "send") {
-//                completeSending()
-//            } else if (type == "receive") {
-//                completeReceiving()
-//            }
-//        }
-
-        // 30초 후에 자동으로 이전 액티비티나 프래그먼트로 돌아가기
         CoroutineScope(Dispatchers.Main).launch {
-//            delay(30000L) // 30초 대기
-            delay(5000L) // 30초 대기
-            if (isAdded && context != null) {
-                goBack(lastActivity)
+            delay(5000L)
+            if (type == "send") {
+                completeSending()
+            } else if (type == "receive") {
+                completeReceiving()
             }
         }
+
+        // 30초 후에 자동으로 이전 액티비티나 프래그먼트로 돌아가기
+//        CoroutineScope(Dispatchers.Main).launch {
+////            delay(30000L) // 30초 대기
+//            delay(5000L) // 30초 대기
+//            if (isAdded && context != null) {
+//                goBack()
+//            }
+//        }
     }
 
-    private fun goBack(name: String) {
+    private fun goBack() {
         if (isAdded && context != null) {
             try {
-                val className = Class.forName("com.example.shinhantime.activity.$name")
+                val className = Class.forName("com.example.shinhantime.activity.$lastActivity")
                 activity?.finish()
                 val intent = Intent(requireContext(), className)
                 startActivity(intent)
@@ -141,18 +142,20 @@ class LoadingSendWitchFragment : Fragment() {
 
     private fun completeSending() {
         if (isAdded) {
+            val className = Class.forName("com.example.shinhantime.activity.$lastActivity")
             activity?.finish()
             val intent = Intent(requireContext(), ConfirmActivity::class.java)
-            intent.putExtra("pageName", "MainActivity")
+            intent.putExtra("pageName", lastActivity)
             startActivity(intent)
         }
     }
 
     private fun completeReceiving() {
         if (isAdded) {
+            val className = Class.forName("com.example.shinhantime.activity.$lastActivity")
             activity?.finish()
             val intent = Intent(requireContext(), ConfirmActivity::class.java)
-            intent.putExtra("pageName", "FleaMarketActivity")
+            intent.putExtra("pageName", lastActivity)
             startActivity(intent)
         }
     }

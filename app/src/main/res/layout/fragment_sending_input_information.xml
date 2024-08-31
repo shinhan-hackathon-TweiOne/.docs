@@ -13,86 +13,18 @@
         layout="@layout/component_blue_keypad" />
 
     <TextView
-        android:id="@+id/text_from"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:text="내 지갑"
-        android:textColor="@color/black"
-        android:textSize="40dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/text_to"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/text_from_fixed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="에서"
-        android:textColor="@color/black"
-        android:textSize="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/text_to"
-        app:layout_constraintStart_toEndOf="@+id/text_from" />
-
-    <TextView
-        android:id="@+id/text_to"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:text="이가은"
-        android:textColor="#0046ff"
-        android:textSize="40dp"
-        app:layout_constraintBottom_toTopOf="@+id/text_to_account"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/text_to_fixed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="님에게"
-        android:textColor="@color/black"
-        android:textSize="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/text_to_account"
-        app:layout_constraintStart_toEndOf="@+id/text_to" />
-
-    <ImageView
-        android:id="@+id/image_to_logo"
-        android:layout_width="15dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/text_amount"
-        app:layout_constraintEnd_toStartOf="@+id/text_to_account"
-        app:layout_constraintHorizontal_bias="0.457"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/shinhan_logo" />
-
-    <TextView
-        android:id="@+id/text_to_account"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginBottom="10dp"
-        android:text="123-123-123123"
-        android:textColor="#a1a1a1"
-        android:textSize="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/text_amount"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
         android:id="@+id/text_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
         android:layout_marginBottom="100dp"
         android:text="얼마를 보낼까요 ?"
         android:textColor="@color/black"
         android:textSize="30dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/button_next"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button_remain"
