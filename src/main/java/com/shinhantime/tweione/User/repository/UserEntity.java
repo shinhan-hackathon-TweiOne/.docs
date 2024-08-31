@@ -1,5 +1,6 @@
 package com.shinhantime.tweione.User.repository;
 
+import com.shinhantime.tweione.User.Jwt.dto.Wallet;
 import com.shinhantime.tweione.account.repository.AccountEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -36,6 +37,9 @@ public class UserEntity implements UserDetails {
     //Todo : 이더리움 연결
     @Column(name = "current_money")
     private Long currentMoney;
+
+    @Column(name = "wallet")
+    private Wallet wallet;
 
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

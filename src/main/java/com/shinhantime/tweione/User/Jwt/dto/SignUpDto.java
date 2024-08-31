@@ -16,13 +16,14 @@ public class SignUpDto {
     private String name;
     private List<String> roles = new ArrayList<>();
 
-    public UserEntity toEntity(String encodedPassword, List<String> roles ){
+    public UserEntity toEntity(String encodedPassword, List<String> roles, Wallet wallet ){
         return UserEntity.builder()
                 .username(username)
                 .password(encodedPassword)
                 .name(name)
                 .currentMoney(1000000L)
                 .roles(roles)
+                .wallet(wallet)
                 .build();
     }
 
