@@ -1,6 +1,7 @@
 package com.shinhantime.tweione.User.repository;
 
 import com.shinhantime.tweione.User.Jwt.dto.Wallet;
+import com.shinhantime.tweione.Kiosk.repository.KioskEntity;
 import com.shinhantime.tweione.account.repository.AccountEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -49,6 +50,8 @@ public class UserEntity implements UserDetails {
     @JoinColumn(name = "main_account_id")
     private AccountEntity mainAccount;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private KioskEntity kiosk;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default

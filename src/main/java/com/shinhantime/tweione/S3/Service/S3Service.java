@@ -1,5 +1,6 @@
 package com.shinhantime.tweione.S3.Service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -12,6 +13,9 @@ import java.io.IOException;
 public class S3Service {
 
     private final S3Client s3Client;
+
+    @Value("${cloud.aws.region.static}")
+    private String region;
 
     public S3Service(S3Client s3Client) {
         this.s3Client = s3Client;
@@ -26,7 +30,7 @@ public class S3Service {
                 .build();
 
         s3Client.putObject(putObjectRequest, RequestBody.fromBytes(file.getBytes()));
-        return keyName;
+        return String.format("https://%s.s3.%s.amazonaws.com/%s", bucketName, region, keyName);
     }
 
     public byte[] downloadFile(String bucketName, String keyName) {
@@ -37,6 +41,8 @@ public class S3Service {
 
         return s3Client.getObjectAsBytes(getObjectRequest).asByteArray();
     }
+
+
 
     public void deleteFile(String bucketName, String keyName) {
         DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
