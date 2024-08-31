@@ -95,4 +95,76 @@ notion-000000?style=for-the-badge&logo=notion&logoColor=white">
 ### 💾 ERD
 <img src="">
 
-### 🐣 빌드 및 배포
+## 🐣 빌드 및 배포
+
+### 블록 체인
+
+**사용 툴 및 버전**
+
+    - go-ethereum(geth) 1.13.15 => 1.14.x 버전 업데이트로 프라이빗 네트워크 생성이 까다로워짐.
+    - solidity compiler(solc) 0.8.19 => geth 버전과 통일.
+    - web3j 1.6.1
+
+**blockchain 경로 생성**
+
+``` Bash
+mkdir blockchain
+```
+
+**관리자 계좌 생성**
+
+``` Bash
+geth --datadir {사용자 블록체인 경로} account new
+```
+
+**제네시스 블록 파일 생성**
+
+``` json
+{
+  "config": {
+    "chainId": 1234,
+    "homesteadBlock": 0,
+    "eip150Block": 0,
+    "eip155Block": 0,
+    "eip158Block": 0,
+    "byzantiumBlock": 0,
+    "constantinopleBlock": 0,
+    "petersburgBlock": 0,
+    "istanbulBlock": 0,
+    "clique": {
+      "period": 5,
+      "epoch": 30000
+    }
+  },
+  "difficulty": "1",
+  "gasLimit": "8000000",
+  "alloc": {
+    // 사용자 관리자 계좌
+    "0x41e4cf7b9f52f76f74e486337cc5164509ea9f0f": { "balance": "1000000000000000000000000" }
+  },
+  "extradata": "0x000000000000000000000000000000000000000000000000000000000000000041e4cf7b9f52f76f74e486337cc5164509ea9f0f00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+}
+
+```
+
+**제네시스 블록으로 프라이빗 네트워트 초기화**
+
+``` Bash
+geth --datadir {사용자 블록체인 경로} init "C:\Users\SSAFY\Downloads\genesis_block.json"
+```
+
+**프라이빗 네트워크 실행**
+
+``` Bash
+geth --datadir {사용자 블록체인 경로} --networkid 1234 --nodiscover --unlock {사용자 관리자 계좌 주소} --password {사용자 관리자 계좌 비밀번호} --verbosity 3 console --http --http.addr "127.0.0.1" --http.port "8545" --http.api personal,eth,net,web3,miner --http.corsdomain "*" --allow-insecure-unlock
+```
+
+**관리자 계정으로 블록 마이닝**
+
+``` Bash
+miner.setEtherbase(eth.accounts[0])
+miner.start()
+eth.blockNumber // 블록이 추가 됨을 롹인
+```
+
+
