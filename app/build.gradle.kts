@@ -78,6 +78,7 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
+    implementation(libs.converter.scalars)
 
     // biometric
     // 지문 인증

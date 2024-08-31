@@ -18,6 +18,8 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.example.shinhantime.AuthRequest
+import com.example.shinhantime.AuthResponse
 import com.example.shinhantime.R
 import com.example.shinhantime.RetrofitInstances
 import com.example.shinhantime.VerifyAuthRequest
@@ -151,19 +153,26 @@ class SignUpInputInformationFragment : Fragment() {
         )
 
         // Retrofit API 호출
-        RetrofitInstances.userApiService.verifyAuthCode(request).enqueue(object : Callback<VerifyAuthResponse> {
-            override fun onResponse(call: Call<VerifyAuthResponse>, response: Response<VerifyAuthResponse>) {
+        val authRequest = AuthRequest(phoneNumber = phoneNumberText)
+
+        println("전화번호 : " + phoneNumberText)
+
+        RetrofitInstances.userApiService.requestAuthCode(authRequest).enqueue(object : Callback<AuthResponse> {
+            override fun onResponse(call: Call<AuthResponse>, response: Response<AuthResponse>) {
                 if (response.isSuccessful) {
                     // 인증번호가 성공적으로 요청되었음을 사용자에게 알림
                     // UI 갱신 등을 처리
+                    println("성공 !!")
                 } else {
                     // 실패 처리
                     // UI에 에러 메시지 표시
+                    println("실패 !!")
                 }
             }
 
-            override fun onFailure(call: Call<VerifyAuthResponse>, t: Throwable) {
+            override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
                 // 네트워크 오류 등 처리
+                println("네트워크 오류")
             }
         })
     }
@@ -174,9 +183,11 @@ class SignUpInputInformationFragment : Fragment() {
 
         val request = VerifyAuthRequest(
             phoneNumber = phoneNumberText,
-            name = name.text.toString(),
+            name = "ABCD",//name.text.toString(),
             authCode = authCode
         )
+
+        println("인증 성공")
 
         // Retrofit API 호출
         RetrofitInstances.userApiService.verifyAuthCode(request).enqueue(object : Callback<VerifyAuthResponse> {

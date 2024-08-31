@@ -14,7 +14,7 @@
         android:id="@+id/image_item"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/ic_launcher_foreground"
+        android:src="@drawable/shinhan_logo"
         android:contentDescription="Item Image"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"

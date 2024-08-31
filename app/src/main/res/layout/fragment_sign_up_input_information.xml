@@ -100,6 +100,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_phone_number">
@@ -115,9 +116,9 @@
             android:background="@drawable/edittext_background"
             android:hint="인증번호"
             android:inputType="number"
+            android:paddingStart="16dp"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
-            android:paddingStart="16dp"
             app:layout_constraintEnd_toEndOf="@+id/layout_verification"
             app:layout_constraintStart_toStartOf="@+id/layout_verification"
             app:layout_constraintTop_toTopOf="@id/layout_verification" />
@@ -146,6 +147,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="120dp"
         android:text="주민등록번호 앞 7자리"
+        android:visibility="gone"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_verification" />
@@ -161,6 +163,7 @@
         android:background="@drawable/edittext_background"
         android:hint="000000-0******"
         android:inputType="number"
+        android:visibility="gone"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
         android:paddingStart="16dp"
@@ -177,6 +180,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:text="이름"
+        android:visibility="gone"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_id_number" />
@@ -190,6 +194,7 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/edittext_background"
         android:hint="이름"
+        android:visibility="gone"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
         android:paddingStart="16dp"
@@ -209,6 +214,7 @@
         android:layout_marginBottom="30dp"
         android:enabled="false"
         android:text="등록하기"
+        android:visibility="gone"
         android:textColor="@color/black"
         android:background="@drawable/button_background_disabled"
         app:layout_constraintBottom_toBottomOf="parent"

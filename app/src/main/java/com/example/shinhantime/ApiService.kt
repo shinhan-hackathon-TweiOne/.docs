@@ -11,7 +11,7 @@ import retrofit2.http.Part
 import retrofit2.http.Path
 
 data class AuthRequest(
-    val phoneNumber: String,
+    val phoneNumber: String
 )
 
 data class AuthResponse(
@@ -53,7 +53,7 @@ data class ItemRegisterRequest(
     val itemName: String,
     val categoryName: String,
     val imageUrl: String,
-    val price: Int
+    val price: Long
 )
 
 data class RegisterItemResponse(
@@ -72,6 +72,19 @@ data class Account(
     val userId: Int
 )
 
+// 유저 계좌 1원 송금을 위한 요청 데이터 클래스
+data class SendOneWonRequest(
+    val accountNo: String,
+    val bankName: String
+)
+
+// 유저 계좌 1원 송금에 대한 응답 데이터 클래스
+data class SendOneWonResponse(
+    val statusCode: Int,
+    val message: String,
+    val success: Boolean
+)
+
 // UserApiService: 유저 인증 관련 API 정의
 interface UserApiService {
     // 인증번호 요청을 위한 엔드포인트
@@ -79,7 +92,7 @@ interface UserApiService {
     fun requestAuthCode(@Body request: AuthRequest): Call<AuthResponse>
 
     // 인증번호 확인 및 사용자 인증을 위한 엔드포인트
-    @POST("/verify_auth")
+    @POST("/verify-auth")
     fun verifyAuthCode(@Body request: VerifyAuthRequest): Call<VerifyAuthResponse>
 
     @GET("/api/user/{user_id}")
@@ -87,6 +100,17 @@ interface UserApiService {
         @Path("user_id") userId: Int
     ): Call<UserDto>
 
+    @GET("/api/accounts/{user_id}")
+    fun getUserAccounts(
+        @Path("user_id") userId: Int
+    ): Call<List<Account>>
+
+    // 유저 계좌 1원 송금 API 정의
+    @POST("/api/accounts/{user_id}")
+    fun sendOneWon(
+        @Path("user_id") userId: Int,
+        @Body requestBody: SendOneWonRequest
+    ): Call<SendOneWonResponse>
 
 
     @POST("/api/accounts/{user_id}/verify")
@@ -94,6 +118,12 @@ interface UserApiService {
         @Path("user_id") userId: Int,
         @Body requestBody: Map<String, String>
     ): Call<VerifyAuthResponse>
+
+    @POST("/api/accounts/user/{user_id}/main-account/{accountId}")
+    fun setMainAccount(
+        @Path("user_id") userId: Int,
+        @Path("accountId") accountId: Int
+    ): Call<Void>
 }
 
 // FleaMarketApiService: 플리마켓 관련 API 정의
@@ -105,7 +135,7 @@ interface FleaMarketApiService {
     fun registerItem(
         @Path("userId") userId: Int,
         @Body requestBody: ItemRegisterRequest
-    ): Call<RegisterItemResponse>
+    ): Call<String>
 }
 
 // S3ApiService: S3 이미지 업로드 API 정의

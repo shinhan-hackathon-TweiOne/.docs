@@ -3,20 +3,23 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <Button
         android:id="@+id/button_add"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:background="@drawable/dotted_circle_background"
-        android:text="+"
-        android:textSize="36dp"
-        android:textColor="#ff0000"
         android:layout_gravity="center"
+        android:background="@drawable/dotted_circle_background"
         android:gravity="center"
-        tools:ignore="ButtonStyle"
-        />
+        android:text="+"
+        android:textColor="#ff0000"
+        android:textSize="36dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ButtonStyle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
