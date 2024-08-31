@@ -22,8 +22,8 @@ public class S3Controller {
                                              @RequestParam("bucketName") String bucketName,
                                              @RequestParam("keyName") String keyName) {
         try {
-            String key = s3Service.uploadFile(bucketName, keyName, file);
-            return ResponseEntity.ok("File uploaded successfully. Key: " + key);
+            String url = s3Service.uploadFile(bucketName, keyName, file);
+            return ResponseEntity.ok("url: " + url);
         } catch (IOException e) {
             return ResponseEntity.status(500).body("Failed to upload file: " + e.getMessage());
         }
@@ -35,6 +35,13 @@ public class S3Controller {
         byte[] file = s3Service.downloadFile(bucketName, keyName);
         return ResponseEntity.ok(file);
     }
+
+    //@GetMapping("/load")
+    //public ResponseEntity<byte[]> loadFile(@RequestParam("bucketName") String bucketName,
+                                               //@RequestParam("keyName") String keyName) {
+        //byte[] file = s3Service.downloadFile(bucketName, keyName);
+        //return ResponseEntity.ok(file);
+    //}
 
     @DeleteMapping("/delete")
     public ResponseEntity<String> deleteFile(@RequestParam("bucketName") String bucketName,
