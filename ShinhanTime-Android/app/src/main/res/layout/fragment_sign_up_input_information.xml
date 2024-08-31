@@ -20,17 +20,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/imageButton_backward"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:background="@android:color/transparent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/btn_dialog" />
-
     <TextView
         android:id="@+id/text_description"
         android:layout_width="wrap_content"
@@ -60,13 +49,14 @@
     <Spinner
         android:id="@+id/spinner_carrier"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/spinner_background"
         android:enabled="true"
         android:entries="@array/carrier_array"
+        android:paddingStart="6dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,15 +65,16 @@
     <EditText
         android:id="@+id/edit_phone_number"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/edittext_background"
-        android:hint="010-XXXX-XXXX"
+        android:hint="'-'를 제외하고 입력해주세요."
         android:inputType="phone"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
+        android:paddingStart="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/spinner_carrier" />
@@ -97,8 +88,7 @@
         android:layout_marginEnd="16dp"
         android:enabled="false"
         android:text="인증번호 요청"
-        android:textStyle="bold"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:background="@drawable/button_background_disabled"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edit_phone_number" />
@@ -118,7 +108,7 @@
         <EditText
             android:id="@+id/edit_verification_code"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
@@ -127,32 +117,22 @@
             android:inputType="number"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
+            android:paddingStart="16dp"
             app:layout_constraintEnd_toEndOf="@+id/layout_verification"
             app:layout_constraintStart_toStartOf="@+id/layout_verification"
             app:layout_constraintTop_toTopOf="@id/layout_verification" />
 
         <!-- 인증번호 재요청 버튼 -->
-        <Button
-            android:id="@+id/button_resend_code"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/small_rounded_white_button"
-            android:text="인증번호 재요청"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toStartOf="@+id/button_extend_time"
-            app:layout_constraintTop_toBottomOf="@+id/edit_verification_code" />
 
-        <!-- 시간 연장 버튼 -->
+        <!-- 인증 확인 버튼 -->
         <Button
-            android:id="@+id/button_extend_time"
+            android:id="@+id/button_verification"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/small_rounded_white_button"
-            android:text="시간 연장"
+            android:text="확인"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="@+id/layout_verification"
             app:layout_constraintTop_toBottomOf="@+id/edit_verification_code" />
@@ -174,7 +154,7 @@
     <EditText
         android:id="@+id/edit_id_number"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
@@ -183,6 +163,7 @@
         android:inputType="number"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
+        android:paddingStart="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_id_number" />
@@ -211,23 +192,12 @@
         android:hint="이름"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
+        android:paddingStart="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_person_name" />
 
     <!-- 이름 확인 버튼 -->
-    <Button
-        android:id="@+id/button_confirm"
-        android:layout_width="60dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/small_rounded_gray_button"
-        android:text="확인"
-        android:textColor="@color/black"
-        android:textSize="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/edit_name"
-        app:layout_constraintEnd_toEndOf="@+id/edit_name"
-        app:layout_constraintTop_toTopOf="@+id/edit_name" />
 
     <!-- 등록하기 버튼 -->
     <Button

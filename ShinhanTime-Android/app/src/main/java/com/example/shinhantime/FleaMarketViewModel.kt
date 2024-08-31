@@ -1,37 +1,64 @@
-import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.shinhantime.Category
+import com.example.shinhantime.Item
+import com.example.shinhantime.RetrofitInstances
+import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class FleaMarketViewModel : ViewModel() {
 
-    // 아이템 가격 정보를 저장하는 맵
-    val itemPrices = mapOf(
-        "귀걸이" to 30000,
-        "목걸이" to 20000,
-        "반지" to 15000,
-        "금팔찌" to 50000,
-        
-        "사랑 이야기" to 20000,
-        "경제 이야기" to 40000,
-        "문학 이야기" to 15000,
-        "범죄 이야기" to 50000,
-        
-        "소나무" to 150000,
-        "철쭉" to 20000,
-        "감나무" to 100000,
-        "단풍나무" to 80000
-    )
+    private val _categories = MutableLiveData<List<Category>>()
+    val categories: LiveData<List<Category>> get() = _categories
 
-    // 아이템 수량 정보를 저장하는 MutableLiveData
+    private val _filteredItems = MutableLiveData<List<Item>>()
+    val filteredItems: LiveData<List<Item>> get() = _filteredItems
+
     private val _itemQuantities = MutableLiveData<MutableMap<String, Int>>(mutableMapOf())
     val itemQuantities: LiveData<MutableMap<String, Int>> get() = _itemQuantities
 
-    // 총 가격을 저장하는 MutableLiveData
     private val _totalPrice = MutableLiveData<Int>(0)
     val totalPrice: LiveData<Int> get() = _totalPrice
 
-    // 아이템 선택 시 호출되는 메서드
+    init {
+        _totalPrice.value = 0
+        fetchCategoriesAndItems(userId = 1)  // 예시로 userId = 1 사용
+    }
+
+    // 서버에서 카테고리와 아이템 데이터를 가져오는 함수
+    private fun fetchCategoriesAndItems(userId: Int) {
+        RetrofitInstances.fleaMarketApiService.getCategoriesAndItems(userId)
+            .enqueue(object : Callback<List<Category>> {
+                override fun onResponse(call: Call<List<Category>>, response: Response<List<Category>>) {
+                    if (response.isSuccessful) {
+                        _categories.value = response.body()
+
+                        // 첫 번째 카테고리의 아이템을 초기 선택 상태로 설정
+                        response.body()?.let {
+                            if (it.isNotEmpty()) {
+                                setCategoryVisibility(it[0].id)
+                            }
+                        }
+                    } else {
+                        // 에러 처리
+                    }
+                }
+
+                override fun onFailure(call: Call<List<Category>>, t: Throwable) {
+                    // 네트워크 오류 등 처리
+                }
+            })
+    }
+
+    fun setCategoryVisibility(categoryId: Int) {
+        val selectedCategoryItems = _categories.value?.find { it.id == categoryId }?.items
+        _filteredItems.value = selectedCategoryItems ?: emptyList()
+    }
+
     fun selectItem(itemName: String) {
         val quantities = _itemQuantities.value ?: mutableMapOf()
         if (!quantities.containsKey(itemName)) {
@@ -41,7 +68,6 @@ class FleaMarketViewModel : ViewModel() {
         calculateTotalPrice()
     }
 
-    // 아이템 수량 증가
     fun increaseItemQuantity(itemName: String) {
         val quantities = _itemQuantities.value ?: mutableMapOf()
         val currentQuantity = quantities[itemName] ?: 0
@@ -50,7 +76,6 @@ class FleaMarketViewModel : ViewModel() {
         calculateTotalPrice()
     }
 
-    // 아이템 수량 감소
     fun decreaseItemQuantity(itemName: String) {
         val quantities = _itemQuantities.value ?: mutableMapOf()
         val currentQuantity = quantities[itemName] ?: 0
@@ -63,50 +88,13 @@ class FleaMarketViewModel : ViewModel() {
         calculateTotalPrice()
     }
 
-    // 총 가격 계산
     private fun calculateTotalPrice() {
         val quantities = _itemQuantities.value ?: return
-        var total = 0
+        var total = 0.0
         for ((itemName, quantity) in quantities) {
-            val pricePerItem = itemPrices[itemName] ?: 0
+            val pricePerItem = _filteredItems.value?.find { it.name == itemName }?.price ?: 0.0
             total += pricePerItem * quantity
         }
-        _totalPrice.value = total
-    }
-
-    init {
-        _totalPrice.value = 0
-    }
-
-    private val _accessoryVisibility = MutableLiveData<Int>()
-    val accessoryVisibility: LiveData<Int> get() = _accessoryVisibility
-
-    private val _booksVisibility = MutableLiveData<Int>()
-    val booksVisibility: LiveData<Int> get() = _booksVisibility
-
-    private val _treesVisibility = MutableLiveData<Int>()
-    val treesVisibility: LiveData<Int> get() = _treesVisibility
-
-    init {
-        // Default visibility state
-        _accessoryVisibility.value = View.VISIBLE
-        _booksVisibility.value = View.VISIBLE
-        _treesVisibility.value = View.VISIBLE
-    }
-
-    // Methods to toggle visibility
-    fun toggleAccessoryVisibility() {
-        _accessoryVisibility.value = if (_accessoryVisibility.value == View.VISIBLE) View.GONE else View.VISIBLE
-        println("CHANGE")
-        println(_accessoryVisibility.value)
-    }
-
-    fun toggleBooksVisibility() {
-        _booksVisibility.value = if (_booksVisibility.value == View.VISIBLE) View.GONE else View.VISIBLE
-
-    }
-
-    fun toggleTreesVisibility() {
-        _treesVisibility.value = if (_treesVisibility.value == View.VISIBLE) View.GONE else View.VISIBLE
+        _totalPrice.value = total.toInt()
     }
 }

@@ -34,7 +34,7 @@ class MainAccountExistFragment : Fragment() {
 //            val intent = Intent(requireContext(), FindingActivity::class.java)
 //            startActivity(intent)
             activity?.finish()
-            val intent = Intent(requireContext(), LoadingActivity::class.java)
+            val intent = Intent(requireContext(), SendingActivity::class.java)
             intent.putExtra("pageName", "MainActivity")
             intent.putExtra("fragmentName", "SendWitch")
             intent.putExtra("loadType", "send")
@@ -43,12 +43,12 @@ class MainAccountExistFragment : Fragment() {
         receiveButton.setOnClickListener{
             // receive는 바로 loading페이지로 전환
             // 이 때 loading페이지는 sendwitch 로딩페이지이며 type은 recevie임을 명시
-//            activity?.finish()
-//            val intent = Intent(requireContext(), LoadingActivity::class.java)
-//            intent.putExtra("pageName", "MainActivity")
-//            intent.putExtra("fragmentName", "SendWitch")
-//            intent.putExtra("loadType", "receive")
-//            startActivity(intent)
+            activity?.finish()
+            val intent = Intent(requireContext(), LoadingActivity::class.java)
+            intent.putExtra("pageName", "MainActivity")
+            intent.putExtra("fragmentName", "SendWitch")
+            intent.putExtra("loadType", "receive")
+            startActivity(intent)
         }
         return view
     }

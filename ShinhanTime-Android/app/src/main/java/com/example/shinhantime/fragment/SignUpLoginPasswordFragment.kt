@@ -1,5 +1,6 @@
 package com.example.shinhantime.fragment
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +11,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.shinhantime.R
 import com.example.shinhantime.activity.MainActivity
-import com.example.shinhantime.activity.SignUpActivity
 
 class SignUpLoginPasswordFragment : Fragment() {
 
@@ -45,8 +45,6 @@ class SignUpLoginPasswordFragment : Fragment() {
 
         val keypad = view.findViewById<View>(R.id.blue_keypad)
 
-        // 예시로 키패드의 번호 클릭 이벤트 처리
-        // 실제 키패드 구현에 따라 번호 클릭 이벤트 처리 필요
         keypad.findViewById<View>(R.id.button_1).setOnClickListener { onKeyPressed('1') }
         keypad.findViewById<View>(R.id.button_2).setOnClickListener { onKeyPressed('2') }
         keypad.findViewById<View>(R.id.button_3).setOnClickListener { onKeyPressed('3') }
@@ -77,8 +75,10 @@ class SignUpLoginPasswordFragment : Fragment() {
                 // 두 번째 비밀번호 입력이 완료되면 두 비밀번호를 비교
                 if (firstPassword.toString() == secondPassword.toString()) {
                     // 비밀번호가 일치하면 성공 처리 (예: 비밀번호 등록 로직 호출)
+                    savePasswordToSharedPreferences(firstPassword.toString())
                     Toast.makeText(requireContext(), "비밀번호가 등록되었습니다.", Toast.LENGTH_SHORT).show()
-                    // 여기서 실제 비밀번호 등록 로직을 추가할 수 있습니다.
+
+                    // 메인 액티비티로 이동
                     activity?.finish()
                     val intent = Intent(requireContext(), MainActivity::class.java)
                     startActivity(intent)
@@ -111,5 +111,12 @@ class SignUpLoginPasswordFragment : Fragment() {
 
     private fun resetPasswordUI() {
         updatePasswordUI(StringBuilder())
+    }
+
+    private fun savePasswordToSharedPreferences(password: String) {
+        val sharedPreferences = requireContext().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("userPassword", password)
+        editor.apply()
     }
 }

@@ -6,49 +6,27 @@
     android:background="@color/white">
 
     <!-- 상단 카테고리 버튼들 -->
-    <LinearLayout
-        android:id="@+id/category_buttons"
+    <!-- HorizontalScrollView를 추가하여 좌우로 스크롤 가능하게 함 -->
+    <HorizontalScrollView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:orientation="horizontal"
         android:background="@drawable/small_rounded_blue_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/button_accessory"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/category_buttons"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:text="악세서리"
-            android:textStyle="bold"
-            android:textColor="@android:color/white" />
+            android:orientation="horizontal"
+            android:padding="10dp"/>
 
-        <Button
-            android:id="@+id/button_book"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:text="책"
-            android:textStyle="bold"
-            android:textColor="@android:color/white" />
 
-        <Button
-            android:id="@+id/button_tree"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:text="분재"
-            android:textStyle="bold"
-            android:textColor="@android:color/white"/>
-    </LinearLayout>
+    </HorizontalScrollView>
 
     <!-- 프래그먼트를 표시할 영역 -->
     <FrameLayout

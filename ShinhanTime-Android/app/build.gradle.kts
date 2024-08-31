@@ -67,8 +67,21 @@ dependencies {
     implementation(libs.androidx.cardview)
     implementation(libs.androidx.navigation.fragment.ktx)
 
+    // glide
+    // 이미지 로드 처리 속도 증가
     implementation(libs.glide)
     kapt(libs.compiler)
+
+    // retrofit, http
+    // 서버 통신
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
+
+    // biometric
+    // 지문 인증
+    implementation(libs.androidx.biometric.v120alpha04)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

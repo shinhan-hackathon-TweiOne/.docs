@@ -1,0 +1,10 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#D9D9D9" />
+    <corners android:radius="30dp"/> <!-- 둥근 모서리 설정 -->
+    <!-- 점선 테두리 -->
+    <stroke
+        android:width="2dp"
+        android:color="@color/black"
+        android:dashWidth="4dp"
+        android:dashGap="4dp"/>
+</shape>
