@@ -17,11 +17,17 @@ import com.example.shinhantime.RetrofitInstances
 import com.example.shinhantime.SendOneWonRequest
 import com.example.shinhantime.SendOneWonResponse
 import com.example.shinhantime.VerifyAuthResponse
+import com.example.shinhantime.networks.BLEScanner
+import com.example.shinhantime.networks.BLEDeviceConnection
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
 class MainAccountNoneFragment : Fragment() {
+
+    private lateinit var bleScanner: BLEScanner
+    private var bleDeviceConnection: BLEDeviceConnection? = null
 
     private lateinit var constraintLayoutAccount: ConstraintLayout
     private lateinit var constraintLayoutAccountVerification: ConstraintLayout

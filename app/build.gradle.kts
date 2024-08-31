@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.shinhantime"
-        minSdk = 30
+        minSdk = 31
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -70,6 +70,7 @@ dependencies {
     // glide
     // 이미지 로드 처리 속도 증가
     implementation(libs.glide)
+    implementation(libs.firebase.crashlytics.buildtools)
     kapt(libs.compiler)
 
     // retrofit, http
@@ -83,6 +84,10 @@ dependencies {
     // biometric
     // 지문 인증
     implementation(libs.androidx.biometric.v120alpha04)
+
+    // uwb
+    implementation("androidx.core.uwb:uwb:1.0.0-alpha08")
+    implementation("androidx.core.uwb:uwb-rxjava3:1.0.0-alpha08")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
